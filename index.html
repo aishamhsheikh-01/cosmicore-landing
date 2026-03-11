@@ -3,497 +3,312 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Cosmicore — A space-themed productivity app built for ADHD and neurodivergent minds. Focus sessions forge celestial objects. Build your universe."/>
+  <meta name="description" content="Cosmicore — A space-themed productivity app. Focus sessions forge celestial objects. Build your universe."/>
   <title>Cosmicore — Forge Your Productivity</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
     :root {
-      --bg: #06041a;
-      --bg2: #09061f;
-      --p: #8a5af0;
-      --pg: rgba(138,90,240,.55);
-      --c: #50c8f0;
-      --g: #ffc33c;
-      --gr: #50d296;
-      --fd: 'Orbitron', monospace;
-      --fb: 'Exo 2', sans-serif;
-      --bd: rgba(138,90,240,.18);
+      --bg:#06041a; --p:#8a5af0; --pg:rgba(138,90,240,.55);
+      --c:#50c8f0; --g:#ffc33c; --gr:#50d296;
+      --fd:'Orbitron',monospace; --fb:'Exo 2',sans-serif;
+      --bd:rgba(138,90,240,.18);
     }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: rgba(235,240,255,.97);
-      font-family: var(--fb);
-      overflow-x: hidden;
-      cursor: default;
-    }
-
-    /* ── STAR CANVAS ── */
-    #starfield {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:rgba(235,240,255,.97); font-family:var(--fb); overflow-x:hidden; }
+    #starfield { position:fixed; inset:0; z-index:0; pointer-events:none; }
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 48px;
-      background: rgba(6,4,26,.82);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--bd);
-      transition: all .3s;
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 48px;
+      background:rgba(6,4,26,.82); backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--bd); transition:background .3s;
     }
-    .nav-logo {
-      font-family: var(--fd); font-size: .92rem; font-weight: 900;
-      letter-spacing: .28em; color: #fff;
-      text-shadow: 0 0 22px rgba(138,90,240,.7), 0 0 44px rgba(80,200,240,.25);
-    }
-    .nav-links { display: flex; align-items: center; gap: 32px; }
-    .nav-links a {
-      font-size: .8rem; color: rgba(185,195,255,.75); text-decoration: none;
-      letter-spacing: .06em; transition: color .2s;
-    }
-    .nav-links a:hover { color: rgba(220,228,255,.98); }
-    .nav-cta {
-      padding: 9px 22px; border-radius: 8px;
-      background: linear-gradient(130deg, rgba(138,90,240,.9), rgba(80,40,200,.9));
-      font-family: var(--fd); font-size: .65rem; font-weight: 700;
-      color: #fff; letter-spacing: .14em; text-decoration: none;
-      box-shadow: 0 0 22px rgba(110,55,200,.5);
-      transition: all .2s;
-    }
-    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 36px rgba(110,55,200,.8); }
+    .nav-logo { font-family:var(--fd); font-size:.92rem; font-weight:900; letter-spacing:.28em; color:#fff; text-shadow:0 0 22px rgba(138,90,240,.7),0 0 44px rgba(80,200,240,.25); text-decoration:none; }
+    .nav-links { display:flex; align-items:center; gap:28px; }
+    .nav-links a { font-size:.78rem; color:rgba(185,195,255,.75); text-decoration:none; letter-spacing:.06em; transition:color .2s; }
+    .nav-links a:hover { color:rgba(220,228,255,.98); }
+    .nav-cta { padding:9px 22px; border-radius:8px; background:linear-gradient(130deg,rgba(138,90,240,.9),rgba(80,40,200,.9)); font-family:var(--fd); font-size:.65rem; font-weight:700; color:#fff; letter-spacing:.14em; text-decoration:none; box-shadow:0 0 22px rgba(110,55,200,.5); transition:all .2s; }
+    .nav-cta:hover { transform:translateY(-1px); box-shadow:0 0 36px rgba(110,55,200,.8); }
 
-    /* ── SECTIONS ── */
-    section { position: relative; z-index: 10; }
+    section { position:relative; z-index:10; }
 
     /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 16px; border-radius: 100px;
-      background: rgba(138,90,240,.12);
-      border: 1px solid rgba(138,90,240,.3);
-      font-family: var(--fd); font-size: .58rem;
-      color: rgba(180,160,255,.95); letter-spacing: .18em;
-      margin-bottom: 32px;
-      animation: fadeUp .8s ease both;
-    }
-    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--p); box-shadow: 0 0 8px var(--p); animation: pulse 2s infinite; }
-    .hero-title {
-      font-family: var(--fd); font-size: clamp(2.4rem, 7vw, 5.5rem);
-      font-weight: 900; line-height: 1.08; letter-spacing: .04em;
-      color: rgba(248,244,255,.99);
-      text-shadow: 0 0 60px rgba(138,90,240,.4);
-      margin-bottom: 12px;
-      animation: fadeUp .8s .1s ease both;
-    }
-    .hero-title em {
-      font-style: normal;
-      background: linear-gradient(135deg, #a070ff, #50c8f0, #ffc33c);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: clamp(.95rem, 2.5vw, 1.18rem);
-      color: rgba(185,198,255,.82); line-height: 1.7;
-      max-width: 600px; margin: 0 auto 48px;
-      animation: fadeUp .8s .2s ease both;
-    }
-    .hero-btns {
-      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-      animation: fadeUp .8s .3s ease both;
-    }
-    .btn-primary {
-      padding: 15px 36px; border-radius: 10px; border: none; cursor: pointer;
-      background: linear-gradient(130deg, #7040e0, #4820a8);
-      font-family: var(--fd); font-size: .74rem; font-weight: 700;
-      color: #fff; letter-spacing: .14em; text-decoration: none;
-      box-shadow: 0 0 30px rgba(110,55,200,.6), 0 4px 20px rgba(0,0,0,.4);
-      transition: all .22s; display: inline-flex; align-items: center; gap: 10px;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(110,55,200,.9), 0 8px 30px rgba(0,0,0,.4); }
-    .btn-secondary {
-      padding: 15px 36px; border-radius: 10px; cursor: pointer;
-      background: transparent;
-      border: 1px solid rgba(138,90,240,.4);
-      font-family: var(--fd); font-size: .74rem; font-weight: 700;
-      color: rgba(200,185,255,.9); letter-spacing: .14em; text-decoration: none;
-      transition: all .22s; display: inline-flex; align-items: center; gap: 10px;
-    }
-    .btn-secondary:hover { background: rgba(138,90,240,.1); border-color: rgba(138,90,240,.7); }
+    .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:120px 24px 80px; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 18px; border-radius:100px; background:rgba(138,90,240,.12); border:1px solid rgba(138,90,240,.3); font-family:var(--fd); font-size:.58rem; color:rgba(180,160,255,.95); letter-spacing:.16em; margin-bottom:32px; animation:fadeUp .8s ease both; }
+    .hero-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--p); box-shadow:0 0 8px var(--p); animation:pulse 2s infinite; }
+    .hero-title { font-family:var(--fd); font-size:clamp(2.4rem,7vw,5.5rem); font-weight:900; line-height:1.08; letter-spacing:.04em; color:rgba(248,244,255,.99); text-shadow:0 0 60px rgba(138,90,240,.4); margin-bottom:16px; animation:fadeUp .8s .1s ease both; }
+    .hero-title em { font-style:normal; background:linear-gradient(135deg,#a070ff,#50c8f0,#ffc33c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-sub { font-size:clamp(.95rem,2.5vw,1.15rem); color:rgba(185,198,255,.82); line-height:1.75; max-width:580px; margin:0 auto 48px; animation:fadeUp .8s .2s ease both; }
+    .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; animation:fadeUp .8s .3s ease both; }
+    .btn-primary { padding:15px 36px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(130deg,#7040e0,#4820a8); font-family:var(--fd); font-size:.74rem; font-weight:700; color:#fff; letter-spacing:.14em; text-decoration:none; box-shadow:0 0 30px rgba(110,55,200,.6),0 4px 20px rgba(0,0,0,.4); transition:all .22s; display:inline-flex; align-items:center; gap:10px; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 50px rgba(110,55,200,.9),0 8px 30px rgba(0,0,0,.4); }
+    .btn-secondary { padding:15px 36px; border-radius:10px; cursor:pointer; background:transparent; border:1px solid rgba(138,90,240,.4); font-family:var(--fd); font-size:.74rem; font-weight:700; color:rgba(200,185,255,.9); letter-spacing:.14em; text-decoration:none; transition:all .22s; display:inline-flex; align-items:center; gap:10px; }
+    .btn-secondary:hover { background:rgba(138,90,240,.1); border-color:rgba(138,90,240,.7); }
 
-    .hero-devices {
-      margin-top: 72px;
-      position: relative;
-      animation: fadeUp .8s .5s ease both;
-    }
-    .hero-screen {
-      width: min(820px, 90vw);
-      height: min(480px, 52vw);
-      border-radius: 16px;
-      background: rgba(9,6,26,.9);
-      border: 1px solid rgba(138,90,240,.35);
-      box-shadow: 0 0 80px rgba(138,90,240,.25), 0 0 160px rgba(80,200,240,.08), 0 32px 80px rgba(0,0,0,.6);
-      overflow: hidden;
-      position: relative;
-      margin: 0 auto;
-    }
-    .hero-screen-inner {
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, rgba(138,90,240,.06) 0%, rgba(80,200,240,.04) 50%, transparent 100%);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .mock-ui {
-      width: 100%; height: 100%; padding: 24px;
-      display: grid; grid-template-columns: 180px 1fr; gap: 16px;
-    }
-    .mock-sidebar {
-      background: rgba(255,255,255,.03);
-      border-radius: 10px; border: 1px solid rgba(138,90,240,.15);
-      padding: 16px 12px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .mock-logo { font-family: var(--fd); font-size: .52rem; font-weight: 900; letter-spacing: .22em; color: #fff; margin-bottom: 8px; text-shadow: 0 0 12px rgba(138,90,240,.6); }
-    .mock-nav-item {
-      padding: 7px 10px; border-radius: 6px; font-size: .58rem;
-      color: rgba(185,195,255,.6); letter-spacing: .06em;
-      display: flex; align-items: center; gap: 7px;
-    }
-    .mock-nav-item.active {
-      background: rgba(138,90,240,.18); color: rgba(220,208,255,.99);
-      border: 1px solid rgba(138,90,240,.3);
-    }
-    .mock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--p); flex-shrink: 0; }
-    .mock-content { display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
-    .mock-card {
-      background: rgba(255,255,255,.04); border-radius: 8px;
-      border: 1px solid rgba(138,90,240,.12); padding: 12px 14px;
-    }
-    .mock-card-title { font-family: var(--fd); font-size: .5rem; color: rgba(235,238,255,.9); letter-spacing: .12em; margin-bottom: 6px; }
-    .mock-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.06); margin-bottom: 4px; overflow: hidden; }
-    .mock-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--p), var(--c)); box-shadow: 0 0 8px var(--pg); }
-    .mock-orb {
-      width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 6px;
-      background: radial-gradient(circle at 35% 35%, rgba(160,120,255,.9), rgba(80,40,200,.6));
-      box-shadow: 0 0 20px rgba(138,90,240,.5), 0 0 40px rgba(138,90,240,.2);
-      animation: orbPulse 3s ease-in-out infinite;
-    }
-    .mock-timer { font-family: var(--fd); font-size: 1.1rem; font-weight: 900; text-align: center; color: rgba(240,235,255,.99); letter-spacing: .05em; }
-    .mock-row { display: flex; gap: 8px; }
-    .mock-tag { padding: 3px 8px; border-radius: 4px; font-size: .48rem; background: rgba(138,90,240,.15); border: 1px solid rgba(138,90,240,.25); color: rgba(190,175,255,.9); }
+    /* ── HERO SCREEN ── */
+    .hero-devices { margin-top:72px; position:relative; animation:fadeUp .8s .5s ease both; }
+    .hero-screen { width:min(820px,90vw); height:min(480px,52vw); border-radius:16px; background:rgba(9,6,26,.9); border:1px solid rgba(138,90,240,.35); box-shadow:0 0 80px rgba(138,90,240,.25),0 0 160px rgba(80,200,240,.08),0 32px 80px rgba(0,0,0,.6); overflow:hidden; position:relative; margin:0 auto; }
+    .mock-ui { width:100%; height:100%; padding:24px; padding-top:56px; display:grid; grid-template-columns:180px 1fr; gap:16px; }
+    .mock-sidebar { background:rgba(255,255,255,.03); border-radius:10px; border:1px solid rgba(138,90,240,.15); padding:16px 12px; display:flex; flex-direction:column; gap:8px; }
+    .mock-logo { font-family:var(--fd); font-size:.52rem; font-weight:900; letter-spacing:.22em; color:#fff; margin-bottom:8px; text-shadow:0 0 12px rgba(138,90,240,.6); }
+    .mock-nav-item { padding:7px 10px; border-radius:6px; font-size:.58rem; color:rgba(185,195,255,.6); letter-spacing:.06em; display:flex; align-items:center; gap:7px; }
+    .mock-nav-item.active { background:rgba(138,90,240,.18); color:rgba(220,208,255,.99); border:1px solid rgba(138,90,240,.3); }
+    .mock-dot { width:6px; height:6px; border-radius:50%; background:var(--p); flex-shrink:0; }
+    .mock-content { display:flex; flex-direction:column; gap:10px; overflow:hidden; }
+    .mock-card { background:rgba(255,255,255,.04); border-radius:8px; border:1px solid rgba(138,90,240,.12); padding:12px 14px; }
+    .mock-card-title { font-family:var(--fd); font-size:.5rem; color:rgba(235,238,255,.9); letter-spacing:.12em; margin-bottom:6px; }
+    .mock-bar { height:4px; border-radius:2px; background:rgba(255,255,255,.06); margin-bottom:4px; overflow:hidden; }
+    .mock-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--p),var(--c)); box-shadow:0 0 8px var(--pg); }
+    .mock-orb { width:46px; height:46px; border-radius:50%; margin:0 auto 6px; background:radial-gradient(circle at 35% 35%,rgba(160,120,255,.9),rgba(80,40,200,.6)); box-shadow:0 0 20px rgba(138,90,240,.5); animation:orbPulse 3s ease-in-out infinite; }
+    .mock-timer { font-family:var(--fd); font-size:1rem; font-weight:900; text-align:center; color:rgba(240,235,255,.99); letter-spacing:.05em; }
 
-    /* ── MARQUEE (social proof strip) ── */
-    .marquee-wrap {
-      padding: 22px 0; border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd);
-      overflow: hidden; background: rgba(138,90,240,.04);
-    }
-    .marquee-track {
-      display: flex; gap: 48px; align-items: center;
-      animation: marquee 30s linear infinite;
-      width: max-content;
-    }
-    .marquee-item {
-      font-family: var(--fd); font-size: .62rem; letter-spacing: .2em;
-      color: rgba(155,165,225,.55); white-space: nowrap; flex-shrink: 0;
-    }
-    .marquee-star { color: var(--g); margin-right: 8px; }
+    /* ── MARQUEE ── */
+    .marquee-wrap { padding:22px 0; border-top:1px solid var(--bd); border-bottom:1px solid var(--bd); overflow:hidden; background:rgba(138,90,240,.04); }
+    .marquee-track { display:flex; gap:48px; align-items:center; animation:marquee 28s linear infinite; width:max-content; }
+    .marquee-item { font-family:var(--fd); font-size:.62rem; letter-spacing:.2em; color:rgba(155,165,225,.55); white-space:nowrap; flex-shrink:0; }
+    .marquee-star { color:var(--g); margin-right:8px; }
 
-    /* ── FEATURE SECTIONS ── */
-    .features { padding: 120px 24px; }
-    .section-label {
-      font-family: var(--fd); font-size: .62rem; letter-spacing: .24em;
-      color: rgba(138,90,240,.9); text-transform: uppercase; margin-bottom: 16px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--p); }
-    .section-title {
-      font-family: var(--fd); font-size: clamp(1.6rem, 4vw, 2.8rem);
-      font-weight: 900; line-height: 1.15; letter-spacing: .04em;
-      color: rgba(248,244,255,.99); margin-bottom: 16px;
-    }
-    .section-desc {
-      font-size: 1.02rem; color: rgba(175,188,245,.78); line-height: 1.75;
-      max-width: 520px;
-    }
-    .features-grid {
-      max-width: 1100px; margin: 80px auto 0;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-    }
-    .feat-card {
-      padding: 28px 24px; border-radius: 14px;
-      background: rgba(9,6,26,.85);
-      border: 1px solid rgba(138,90,240,.15);
-      transition: all .3s;
-      position: relative; overflow: hidden;
-    }
-    .feat-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(138,90,240,.5), transparent);
-      opacity: 0; transition: opacity .3s;
-    }
-    .feat-card:hover { border-color: rgba(138,90,240,.35); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(138,90,240,.15); }
-    .feat-card:hover::before { opacity: 1; }
-    .feat-icon {
-      width: 48px; height: 48px; border-radius: 12px; margin-bottom: 18px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-    }
-    .feat-title { font-family: var(--fd); font-size: .74rem; font-weight: 700; letter-spacing: .1em; color: rgba(235,238,255,.98); margin-bottom: 10px; }
-    .feat-desc { font-size: .84rem; color: rgba(165,178,238,.78); line-height: 1.65; }
+    /* ── SHARED SECTION STYLES ── */
+    .section-label { font-family:var(--fd); font-size:.6rem; letter-spacing:.24em; color:rgba(138,90,240,.9); text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+    .section-label::before { content:''; display:block; width:28px; height:1px; background:var(--p); }
+    .section-title { font-family:var(--fd); font-size:clamp(1.6rem,4vw,2.8rem); font-weight:900; line-height:1.15; letter-spacing:.04em; color:rgba(248,244,255,.99); margin-bottom:16px; }
+    .section-desc { font-size:1rem; color:rgba(175,188,245,.78); line-height:1.78; max-width:540px; }
+
+    /* ── FEATURES ── */
+    .features { padding:120px 24px; }
+    .features-grid { max-width:1100px; margin:80px auto 0; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .feat-card { padding:28px 24px; border-radius:14px; background:rgba(9,6,26,.85); border:1px solid rgba(138,90,240,.15); transition:all .3s; position:relative; overflow:hidden; }
+    .feat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(138,90,240,.5),transparent); opacity:0; transition:opacity .3s; }
+    .feat-card:hover { border-color:rgba(138,90,240,.35); transform:translateY(-4px); box-shadow:0 12px 40px rgba(138,90,240,.15); }
+    .feat-card:hover::before { opacity:1; }
+    .feat-icon { width:48px; height:48px; border-radius:12px; margin-bottom:18px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; }
+    .feat-title { font-family:var(--fd); font-size:.72rem; font-weight:700; letter-spacing:.1em; color:rgba(235,238,255,.98); margin-bottom:10px; }
+    .feat-desc { font-size:.84rem; color:rgba(165,178,238,.78); line-height:1.65; }
 
     /* ── ADHD SECTION ── */
-    .adhd-section {
-      padding: 100px 24px;
-      background: radial-gradient(ellipse at center, rgba(138,90,240,.07) 0%, transparent 70%);
-    }
-    .adhd-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-    }
-    .adhd-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
-    .pill {
-      padding: 8px 18px; border-radius: 100px;
-      font-size: .8rem; letter-spacing: .04em;
-      border: 1px solid; display: flex; align-items: center; gap: 8px;
-    }
-    .pill-p { background: rgba(138,90,240,.1); border-color: rgba(138,90,240,.3); color: rgba(200,180,255,.95); }
-    .pill-c { background: rgba(80,200,240,.08); border-color: rgba(80,200,240,.25); color: rgba(100,220,255,.92); }
-    .pill-g { background: rgba(80,210,150,.08); border-color: rgba(80,210,150,.25); color: rgba(90,220,160,.92); }
-    .pill-y { background: rgba(255,195,60,.06); border-color: rgba(255,195,60,.22); color: rgba(255,205,80,.9); }
-
-    .adhd-visual {
-      position: relative; display: flex; align-items: center; justify-content: center;
-    }
-    .planet-wrap {
-      position: relative; width: 280px; height: 280px;
-    }
-    .planet-core {
-      position: absolute; inset: 20px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, rgba(180,130,255,.95), rgba(90,40,220,.7) 60%, rgba(50,20,130,.9));
-      box-shadow: 0 0 60px rgba(138,90,240,.5), 0 0 120px rgba(138,90,240,.2);
-      animation: orbPulse 4s ease-in-out infinite;
-    }
-    .planet-ring {
-      position: absolute; inset: 0;
-      border-radius: 50%; border: 2px solid rgba(138,90,240,.3);
-      animation: ringOrbit 8s linear infinite;
-    }
-    .planet-ring:nth-child(2) { inset: -20px; border-color: rgba(80,200,240,.15); animation-duration: 12s; animation-direction: reverse; }
-    .planet-ring:nth-child(3) { inset: -44px; border-color: rgba(255,195,60,.1); animation-duration: 18s; }
-    .orbit-dot {
-      position: absolute; width: 10px; height: 10px; border-radius: 50%;
-      top: -5px; left: 50%; transform: translateX(-50%);
-      box-shadow: 0 0 10px currentColor;
-    }
+    .adhd-section { padding:100px 24px; background:radial-gradient(ellipse at center,rgba(138,90,240,.07) 0%,transparent 70%); }
+    .adhd-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+    .adhd-pills { display:flex; flex-wrap:wrap; gap:10px; margin-top:32px; }
+    .pill { padding:8px 16px; border-radius:100px; font-size:.8rem; border:1px solid; display:flex; align-items:center; gap:8px; }
+    .pill-p { background:rgba(138,90,240,.1); border-color:rgba(138,90,240,.3); color:rgba(200,180,255,.95); }
+    .pill-c { background:rgba(80,200,240,.08); border-color:rgba(80,200,240,.25); color:rgba(100,220,255,.92); }
+    .pill-g { background:rgba(80,210,150,.08); border-color:rgba(80,210,150,.25); color:rgba(90,220,160,.92); }
+    .pill-y { background:rgba(255,195,60,.06); border-color:rgba(255,195,60,.22); color:rgba(255,205,80,.9); }
+    .adhd-visual { display:flex; align-items:center; justify-content:center; }
+    .planet-wrap { position:relative; width:280px; height:280px; }
+    .planet-core { position:absolute; inset:20px; border-radius:50%; background:radial-gradient(circle at 35% 30%,rgba(180,130,255,.95),rgba(90,40,220,.7) 60%,rgba(50,20,130,.9)); box-shadow:0 0 60px rgba(138,90,240,.5),0 0 120px rgba(138,90,240,.2); animation:orbPulse 4s ease-in-out infinite; }
+    .planet-ring { position:absolute; inset:0; border-radius:50%; border:2px solid rgba(138,90,240,.3); animation:ringOrbit 8s linear infinite; }
 
     /* ── HOW IT WORKS ── */
-    .how-section { padding: 100px 24px; }
-    .steps {
-      max-width: 900px; margin: 60px auto 0;
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
-      position: relative;
-    }
-    .steps::before {
-      content: ''; position: absolute;
-      top: 32px; left: calc(16.6% + 32px); right: calc(16.6% + 32px);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(138,90,240,.4), rgba(80,200,240,.3), transparent);
-    }
-    .step { text-align: center; }
-    .step-num {
-      width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 20px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--fd); font-size: 1rem; font-weight: 900;
-      background: rgba(138,90,240,.15);
-      border: 1px solid rgba(138,90,240,.35);
-      color: rgba(200,180,255,.97);
-      box-shadow: 0 0 20px rgba(138,90,240,.2);
-      position: relative; z-index: 1;
-    }
-    .step-title { font-family: var(--fd); font-size: .72rem; font-weight: 700; letter-spacing: .1em; color: rgba(235,238,255,.97); margin-bottom: 10px; }
-    .step-desc { font-size: .84rem; color: rgba(160,175,235,.75); line-height: 1.65; }
+    .how-section { padding:100px 24px; }
+    .steps { max-width:900px; margin:60px auto 0; display:grid; grid-template-columns:repeat(3,1fr); gap:40px; position:relative; }
+    .steps::before { content:''; position:absolute; top:32px; left:calc(16.6% + 32px); right:calc(16.6% + 32px); height:1px; background:linear-gradient(90deg,transparent,rgba(138,90,240,.4),rgba(80,200,240,.3),transparent); }
+    .step { text-align:center; }
+    .step-num { width:64px; height:64px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-family:var(--fd); font-size:1rem; font-weight:900; background:rgba(138,90,240,.15); border:1px solid rgba(138,90,240,.35); color:rgba(200,180,255,.97); box-shadow:0 0 20px rgba(138,90,240,.2); position:relative; z-index:1; }
+    .step-title { font-family:var(--fd); font-size:.72rem; font-weight:700; letter-spacing:.1em; color:rgba(235,238,255,.97); margin-bottom:10px; }
+    .step-desc { font-size:.84rem; color:rgba(160,175,235,.75); line-height:1.65; }
 
     /* ── CELESTIAL SHOWCASE ── */
-    .celestial-section {
-      padding: 100px 24px;
-      background: radial-gradient(ellipse at 80% 50%, rgba(80,200,240,.05) 0%, transparent 60%);
-    }
-    .cel-row {
-      max-width: 1100px; margin: 60px auto 0;
-      display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
-    }
-    .cel-card {
-      padding: 28px 22px; border-radius: 14px; text-align: center;
-      background: rgba(9,6,26,.85); border: 1px solid rgba(255,255,255,.07);
-      width: 160px; transition: all .3s;
-    }
-    .cel-card:hover { transform: translateY(-6px); border-color: rgba(138,90,240,.3); }
-    .cel-orb {
-      margin: 0 auto 14px;
-      border-radius: 50%;
-      animation: orbPulse 3s ease-in-out infinite;
-    }
-    .cel-name { font-family: var(--fd); font-size: .62rem; font-weight: 700; letter-spacing: .14em; color: rgba(225,230,255,.97); margin-bottom: 4px; }
-    .cel-time { font-size: .7rem; color: rgba(155,165,225,.65); }
+    .celestial-section { padding:100px 24px; background:radial-gradient(ellipse at 80% 50%,rgba(80,200,240,.05) 0%,transparent 60%); }
+    .cel-row { max-width:1200px; margin:60px auto 0; display:flex; gap:20px; justify-content:center; flex-wrap:wrap; }
+    .cel-card { padding:28px 20px; border-radius:14px; text-align:center; background:rgba(9,6,26,.85); border:1px solid rgba(255,255,255,.07); width:190px; transition:all .3s; }
+    .cel-card:hover { transform:translateY(-6px); border-color:rgba(138,90,240,.35); box-shadow:0 12px 40px rgba(138,90,240,.15); }
+    .cel-svg-wrap { display:flex; align-items:center; justify-content:center; height:90px; margin-bottom:14px; }
+    .cel-name { font-family:var(--fd); font-size:.6rem; font-weight:700; letter-spacing:.14em; color:rgba(225,230,255,.97); margin-bottom:4px; }
+    .cel-time { font-size:.7rem; color:rgba(155,165,225,.65); margin-bottom:6px; }
+    .cel-hint { font-size:.63rem; color:rgba(138,90,240,.75); font-style:italic; }
 
-    /* ── CTA SECTION ── */
-    .cta-section {
-      padding: 120px 24px; text-align: center;
-      background: radial-gradient(ellipse at center, rgba(138,90,240,.1) 0%, transparent 65%);
-    }
-    .cta-title { font-family: var(--fd); font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: .05em; color: rgba(248,244,255,.99); margin-bottom: 18px; line-height: 1.15; }
-    .cta-sub { font-size: 1.05rem; color: rgba(175,188,245,.78); max-width: 480px; margin: 0 auto 48px; line-height: 1.7; }
-    .cta-note { margin-top: 18px; font-size: .75rem; color: rgba(140,155,215,.6); letter-spacing: .06em; }
+    /* ── DEVICE TABS ── */
+    .devices-section { padding:100px 24px; }
+    .device-tabs { display:flex; gap:0; justify-content:center; margin:48px auto 36px; border:1px solid rgba(138,90,240,.25); border-radius:10px; overflow:hidden; max-width:320px; }
+    .device-tab { flex:1; padding:11px 20px; font-family:var(--fd); font-size:.62rem; letter-spacing:.12em; color:rgba(175,185,255,.65); background:transparent; border:none; cursor:pointer; transition:all .2s; }
+    .device-tab.active { background:rgba(138,90,240,.2); color:rgba(220,208,255,.98); }
+    .device-view { display:none; justify-content:center; align-items:flex-end; gap:32px; flex-wrap:wrap; }
+    .device-view.active { display:flex; }
+    .device-desktop-wrap { width:min(680px,85vw); border-radius:12px; overflow:hidden; background:rgba(9,6,26,.9); border:1px solid rgba(138,90,240,.3); box-shadow:0 0 60px rgba(138,90,240,.2),0 24px 60px rgba(0,0,0,.5); }
+    .device-topbar { height:30px; background:rgba(255,255,255,.04); border-bottom:1px solid rgba(138,90,240,.15); display:flex; align-items:center; padding:0 12px; gap:6px; }
+    .d-dot { width:10px; height:10px; border-radius:50%; }
+    .device-inner { padding:14px; display:grid; grid-template-columns:110px 1fr; gap:10px; }
+    .d-sidebar { background:rgba(255,255,255,.03); border-radius:7px; border:1px solid rgba(138,90,240,.12); padding:10px 8px; }
+    .d-logo { font-family:var(--fd); font-size:.4rem; font-weight:900; letter-spacing:.2em; color:#fff; margin-bottom:8px; text-shadow:0 0 8px rgba(138,90,240,.5); }
+    .d-nav { padding:5px 7px; border-radius:4px; font-size:.42rem; color:rgba(185,195,255,.6); margin-bottom:2px; }
+    .d-nav.on { background:rgba(138,90,240,.18); color:rgba(220,208,255,.99); border:1px solid rgba(138,90,240,.28); }
+    .d-content { display:flex; flex-direction:column; gap:8px; }
+    .d-card { background:rgba(255,255,255,.04); border-radius:6px; border:1px solid rgba(138,90,240,.12); padding:9px 11px; }
+    .d-card-t { font-family:var(--fd); font-size:.42rem; color:rgba(235,238,255,.9); letter-spacing:.1em; margin-bottom:5px; }
+    .d-bar { height:3px; border-radius:2px; background:rgba(255,255,255,.06); overflow:hidden; }
+    .d-bar-f { height:100%; background:linear-gradient(90deg,var(--p),var(--c)); }
+
+    .device-phone-wrap { width:min(200px,42vw); border-radius:24px; overflow:hidden; background:rgba(9,6,26,.95); border:1px solid rgba(138,90,240,.35); box-shadow:0 0 40px rgba(138,90,240,.2),0 16px 40px rgba(0,0,0,.5); }
+    .p-topbar { height:28px; background:rgba(255,255,255,.04); display:flex; align-items:center; justify-content:center; border-bottom:1px solid rgba(138,90,240,.1); }
+    .p-notch { width:52px; height:11px; background:rgba(0,0,0,.85); border-radius:0 0 8px 8px; }
+    .p-inner { padding:12px; }
+    .p-logo { font-family:var(--fd); font-size:.42rem; font-weight:900; letter-spacing:.18em; color:#fff; text-align:center; margin-bottom:8px; text-shadow:0 0 8px rgba(138,90,240,.5); }
+    .p-card { background:rgba(255,255,255,.04); border-radius:6px; border:1px solid rgba(138,90,240,.12); padding:8px 9px; margin-bottom:5px; }
+    .p-card-t { font-family:var(--fd); font-size:.4rem; color:rgba(235,238,255,.9); letter-spacing:.1em; margin-bottom:4px; }
+    .p-nav { display:flex; justify-content:space-around; padding:6px 2px; border-top:1px solid rgba(138,90,240,.12); margin-top:4px; }
+    .p-nav-i { font-size:.36rem; color:rgba(155,165,225,.55); text-align:center; }
+    .p-nav-i.on { color:rgba(200,180,255,.97); }
+
+    /* ── LEVELS ── */
+    .levels-section { padding:100px 24px; background:radial-gradient(ellipse at center,rgba(255,195,60,.05) 0%,transparent 65%); }
+    .levels-row { max-width:1100px; margin:60px auto 0; display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
+    .level-card { padding:22px 16px; border-radius:12px; background:rgba(9,6,26,.85); border:1px solid rgba(255,255,255,.07); text-align:center; transition:all .3s; position:relative; overflow:hidden; }
+    .level-card:hover { transform:translateY(-4px); }
+    .level-card.lit { border-color:rgba(138,90,240,.4); box-shadow:0 0 24px rgba(138,90,240,.15); }
+    .level-num { font-family:var(--fd); font-size:.55rem; letter-spacing:.18em; color:rgba(138,90,240,.8); margin-bottom:8px; }
+    .level-icon { font-size:1.6rem; margin-bottom:8px; }
+    .level-name { font-family:var(--fd); font-size:.63rem; font-weight:700; letter-spacing:.08em; color:rgba(230,235,255,.97); margin-bottom:6px; }
+    .level-desc { font-size:.68rem; color:rgba(155,165,225,.65); line-height:1.5; }
+    .level-lock { position:absolute; top:10px; right:10px; font-size:.75rem; opacity:.4; }
+
+    /* ── CTA ── */
+    .cta-section { padding:120px 24px; text-align:center; background:radial-gradient(ellipse at center,rgba(138,90,240,.1) 0%,transparent 65%); }
+    .cta-title { font-family:var(--fd); font-size:clamp(1.8rem,5vw,3.2rem); font-weight:900; letter-spacing:.05em; color:rgba(248,244,255,.99); margin-bottom:18px; line-height:1.15; }
+    .cta-sub { font-size:1.05rem; color:rgba(175,188,245,.78); max-width:480px; margin:0 auto 48px; line-height:1.7; }
+    .cta-note { margin-top:18px; font-size:.75rem; color:rgba(140,155,215,.6); letter-spacing:.06em; }
 
     /* ── FOOTER ── */
-    footer {
-      padding: 40px 48px; border-top: 1px solid var(--bd);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
-    }
-    .footer-logo { font-family: var(--fd); font-size: .8rem; font-weight: 900; letter-spacing: .22em; color: rgba(200,210,255,.7); text-shadow: 0 0 14px rgba(138,90,240,.4); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { font-size: .75rem; color: rgba(155,165,225,.55); text-decoration: none; transition: color .2s; }
-    .footer-links a:hover { color: rgba(200,210,255,.9); }
-    .footer-copy { font-size: .7rem; color: rgba(120,130,190,.45); letter-spacing: .06em; }
+    footer { padding:40px 48px; border-top:1px solid var(--bd); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .footer-logo { font-family:var(--fd); font-size:.8rem; font-weight:900; letter-spacing:.22em; color:rgba(200,210,255,.7); text-shadow:0 0 14px rgba(138,90,240,.4); }
+    .footer-links { display:flex; gap:24px; flex-wrap:wrap; }
+    .footer-links a { font-size:.75rem; color:rgba(155,165,225,.55); text-decoration:none; transition:color .2s; }
+    .footer-links a:hover { color:rgba(200,210,255,.9); }
+    .footer-copy { font-size:.7rem; color:rgba(120,130,190,.45); letter-spacing:.06em; }
 
     /* ── ANIMATIONS ── */
-    @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes pulse { 0%,100%{box-shadow:0 0 6px var(--p);} 50%{box-shadow:0 0 14px var(--p), 0 0 24px rgba(138,90,240,.4);} }
-    @keyframes orbPulse { 0%,100%{box-shadow:0 0 30px rgba(138,90,240,.4);} 50%{box-shadow:0 0 55px rgba(138,90,240,.65), 0 0 90px rgba(138,90,240,.2);} }
-    @keyframes ringOrbit { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
-    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
-    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);} }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 6px var(--p);}50%{box-shadow:0 0 14px var(--p),0 0 24px rgba(138,90,240,.4);} }
+    @keyframes orbPulse { 0%,100%{box-shadow:0 0 30px rgba(138,90,240,.4);}50%{box-shadow:0 0 55px rgba(138,90,240,.65),0 0 90px rgba(138,90,240,.2);} }
+    @keyframes ringOrbit { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
+    @keyframes marquee { from{transform:translateX(0);}to{transform:translateX(-50%);} }
+    @keyframes moonGlow { 0%,100%{filter:drop-shadow(0 0 8px rgba(180,200,255,.5));}50%{filter:drop-shadow(0 0 18px rgba(200,215,255,.85));} }
+    @keyframes starGlow { 0%,100%{filter:drop-shadow(0 0 8px rgba(255,200,60,.6));}50%{filter:drop-shadow(0 0 20px rgba(255,215,80,1));} }
+    @keyframes nebulaGlow { 0%,100%{filter:drop-shadow(0 0 10px rgba(80,200,240,.4));}50%{filter:drop-shadow(0 0 22px rgba(100,220,255,.8));} }
+    @keyframes galaxyGlow { 0%,100%{filter:drop-shadow(0 0 10px rgba(200,80,240,.45));}50%{filter:drop-shadow(0 0 24px rgba(210,90,255,.85));} }
+    @keyframes planetGlow { 0%,100%{filter:drop-shadow(0 0 10px rgba(138,90,240,.45));}50%{filter:drop-shadow(0 0 22px rgba(160,110,255,.8));} }
 
-    /* ── SCROLL REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal { opacity:0; transform:translateY(32px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
 
     /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
-      .hero { padding: 100px 20px 60px; }
-      .mock-ui { grid-template-columns: 1fr; }
-      .mock-sidebar { display: none; }
-      .features-grid { grid-template-columns: 1fr; }
-      .adhd-inner { grid-template-columns: 1fr; gap: 40px; }
-      .adhd-visual { display: none; }
-      .steps { grid-template-columns: 1fr; gap: 32px; }
-      .steps::before { display: none; }
-      footer { flex-direction: column; align-items: flex-start; padding: 32px 20px; }
+    @media(max-width:900px) {
+      nav { padding:14px 20px; }
+      .nav-links { display:none; }
+      .mock-sidebar { display:none; }
+      .mock-ui { grid-template-columns:1fr; }
+      .features-grid { grid-template-columns:1fr 1fr; }
+      .adhd-inner { grid-template-columns:1fr; gap:40px; }
+      .adhd-visual { display:none; }
+      .steps { grid-template-columns:1fr; gap:32px; }
+      .steps::before { display:none; }
+      .levels-row { grid-template-columns:1fr 1fr; gap:12px; }
+      footer { flex-direction:column; padding:32px 20px; }
     }
-    @media (max-width: 480px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .cel-row { gap: 14px; }
-      .cel-card { width: 130px; padding: 20px 14px; }
+    @media(max-width:540px) {
+      .features-grid { grid-template-columns:1fr; }
+      .cel-row { gap:12px; }
+      .cel-card { width:calc(50% - 10px); padding:18px 12px; }
+      .levels-row { grid-template-columns:1fr; }
+      .hero { padding:100px 16px 60px; }
     }
   </style>
 </head>
 <body>
 
-<!-- STARFIELD -->
 <canvas id="starfield"></canvas>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav>
-  <div class="nav-logo">COSMICORE</div>
+  <a href="#" class="nav-logo">COSMICORE</a>
   <div class="nav-links">
     <a href="#features">Features</a>
-    <a href="#adhd">Who it's for</a>
-    <a href="#how">How it works</a>
-    <a href="#celestial">Galaxy</a>
+    <a href="#adhd">Who It's For</a>
+    <a href="#how">How It Works</a>
+    <a href="#celestial">Celestial Objects</a>
+    <a href="#levels">Levels</a>
   </div>
   <a href="https://cosmicore.vercel.app" class="nav-cta" target="_blank">Launch App →</a>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-badge"><span></span>Built for neurodivergent minds</div>
+  <div class="hero-badge"><div class="hero-badge-dot"></div>Designed for minds that think differently</div>
   <h1 class="hero-title">
     Forge your focus.<br/>
     <em>Build your universe.</em>
   </h1>
   <p class="hero-sub">
-    Cosmicore turns every focus session into something real. Work for 25 minutes, forge a planet. Build a streak, grow a galaxy. A space-themed productivity app that makes your brain actually want to focus.
+    Cosmicore turns every focus session into something real — a unique celestial object that's truly yours. Build a streak, grow a galaxy, and make your brain actually want to focus.
   </p>
   <div class="hero-btns">
-    <a href="https://cosmicore.vercel.app" class="btn-primary" target="_blank">
-      🚀 Start Forging — It's Free
-    </a>
-    <a href="#how" class="btn-secondary">
-      See how it works ↓
-    </a>
+    <a href="https://cosmicore.vercel.app" class="btn-primary" target="_blank">🚀 Start Forging — It's Free</a>
+    <a href="#how" class="btn-secondary">See how it works ↓</a>
   </div>
 
   <!-- MOCK APP SCREEN -->
   <div class="hero-devices">
     <div class="hero-screen">
-      <div class="hero-screen-inner">
-        <div class="mock-ui">
-          <div class="mock-sidebar">
-            <div class="mock-logo">COSMICORE</div>
-            <div class="mock-nav-item active"><div class="mock-dot"></div> Dashboard</div>
-            <div class="mock-nav-item">📅 Calendar</div>
-            <div class="mock-nav-item">◉ Focus Mode</div>
-            <div class="mock-nav-item">🌌 Galaxy</div>
-            <div class="mock-nav-item">⚙ Settings</div>
+      <!-- browser bar -->
+      <div style="position:absolute;top:0;left:0;right:0;height:32px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(138,90,240,.15);display:flex;align-items:center;padding:0 14px;gap:6px;z-index:2;">
+        <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,92,92,.7);"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,195,60,.7);"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:rgba(80,210,150,.7);"></div>
+        <div style="flex:1;height:18px;background:rgba(255,255,255,.05);border-radius:4px;margin-left:8px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.4rem;color:rgba(155,165,225,.5);letter-spacing:.1em;">cosmicore.vercel.app</div>
+      </div>
+      <div class="mock-ui">
+        <div class="mock-sidebar">
+          <div class="mock-logo">COSMICORE</div>
+          <div class="mock-nav-item active"><div class="mock-dot"></div>Dashboard</div>
+          <div class="mock-nav-item">📅 Calendar</div>
+          <div class="mock-nav-item">◉ Focus Mode</div>
+          <div class="mock-nav-item">🌌 Galaxy</div>
+          <div class="mock-nav-item">⚙ Settings</div>
+        </div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <div class="mock-card-title">⚡ QUICK LAUNCH — WHAT WILL YOU FORGE TODAY?</div>
+            <div style="display:flex;gap:6px;margin-top:4px;">
+              <div style="flex:1;height:22px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid rgba(138,90,240,.2);"></div>
+              <div style="width:68px;height:22px;border-radius:4px;background:linear-gradient(130deg,rgba(138,90,240,.8),rgba(80,40,200,.8));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.42rem;color:#fff;letter-spacing:.08em;">🚀 LAUNCH</div>
+            </div>
           </div>
-          <div class="mock-content">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;">
+            <div class="mock-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;">
+              <div class="mock-orb"></div>
+              <div class="mock-timer">24:38</div>
+              <div style="font-size:.44rem;color:rgba(175,185,235,.65);letter-spacing:.1em;margin-top:3px;">STELLAR FORGE</div>
+            </div>
             <div class="mock-card">
-              <div class="mock-card-title">⚡ QUICK LAUNCH — WHAT WILL YOU FORGE TODAY?</div>
-              <div class="mock-row" style="gap:6px;margin-top:4px;">
-                <div style="flex:1;height:22px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid rgba(138,90,240,.2);"></div>
-                <div style="width:60px;height:22px;border-radius:4px;background:rgba(138,90,240,.2);border:1px solid rgba(138,90,240,.35);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.42rem;color:rgba(200,180,255,.9);letter-spacing:.1em;">🚀 LAUNCH</div>
+              <div class="mock-card-title">□ TODAY'S ORBIT</div>
+              <div style="display:flex;flex-direction:column;gap:4px;margin-top:4px;">
+                <div style="height:14px;border-radius:3px;background:rgba(255,255,255,.06);border-left:2px solid rgba(138,90,240,.6);"></div>
+                <div style="height:14px;border-radius:3px;background:rgba(80,210,150,.06);border-left:2px solid rgba(80,210,150,.5);"></div>
+                <div style="height:14px;border-radius:3px;background:rgba(255,255,255,.04);border-left:2px solid rgba(255,165,55,.4);"></div>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;">
-              <div class="mock-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;">
-                <div class="mock-orb" style="width:44px;height:44px;"></div>
-                <div class="mock-timer">24:38</div>
-                <div style="font-size:.44rem;color:rgba(175,185,235,.65);letter-spacing:.1em;margin-top:3px;">STELLAR FORGE</div>
-              </div>
-              <div class="mock-card">
-                <div class="mock-card-title">□ TODAY'S ORBIT</div>
-                <div style="display:flex;flex-direction:column;gap:4px;margin-top:2px;">
-                  <div style="height:14px;border-radius:3px;background:rgba(255,255,255,.06);border-left:2px solid rgba(138,90,240,.6);"></div>
-                  <div style="height:14px;border-radius:3px;background:rgba(80,210,150,.06);border-left:2px solid rgba(80,210,150,.5);"></div>
-                  <div style="height:14px;border-radius:3px;background:rgba(255,255,255,.04);border-left:2px solid rgba(255,165,55,.4);"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mock-card" style="padding:10px 14px;">
-              <div class="mock-card-title" style="margin-bottom:8px;">◎ LEVEL PROGRESS</div>
-              <div class="mock-bar"><div class="mock-bar-fill" style="width:68%;"></div></div>
-              <div style="display:flex;justify-content:space-between;margin-top:4px;">
-                <div style="font-size:.44rem;color:rgba(175,185,235,.6);">Level 4 — Nebula Navigator</div>
-                <div style="font-size:.44rem;color:rgba(138,90,240,.9);">682 / 1000 XP</div>
-              </div>
+          </div>
+          <div class="mock-card" style="padding:10px 14px;">
+            <div class="mock-card-title" style="margin-bottom:8px;">◎ LEVEL PROGRESS — NEBULA NAVIGATOR</div>
+            <div class="mock-bar"><div class="mock-bar-fill" style="width:68%;"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;">
+              <div style="font-size:.44rem;color:rgba(175,185,235,.6);">Level 4</div>
+              <div style="font-size:.44rem;color:rgba(138,90,240,.9);">682 / 1000 XP</div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Screen glow overlay -->
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(138,90,240,.08));pointer-events:none;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 65%,rgba(6,4,26,.5));pointer-events:none;"></div>
     </div>
-    <!-- Glow under screen -->
-    <div style="position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:60%;height:40px;background:rgba(138,90,240,.25);filter:blur(30px);border-radius:50%;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:60%;height:40px;background:rgba(138,90,240,.22);filter:blur(30px);border-radius:50%;pointer-events:none;"></div>
   </div>
 </section>
 
-<!-- MARQUEE -->
+<!-- ── MARQUEE ── -->
 <div class="marquee-wrap">
   <div class="marquee-track">
     <span class="marquee-item"><span class="marquee-star">✦</span>STELLAR FOCUS SYSTEM</span>
@@ -504,7 +319,6 @@
     <span class="marquee-item"><span class="marquee-star">✦</span>COSMIC MOOD CHECK-IN</span>
     <span class="marquee-item"><span class="marquee-star">✦</span>FREE TO USE</span>
     <span class="marquee-item"><span class="marquee-star">✦</span>WORKS ON ANY DEVICE</span>
-    <!-- duplicate for seamless loop -->
     <span class="marquee-item"><span class="marquee-star">✦</span>STELLAR FOCUS SYSTEM</span>
     <span class="marquee-item"><span class="marquee-star">✦</span>BUILT FOR ADHD BRAINS</span>
     <span class="marquee-item"><span class="marquee-star">✦</span>FORGE CELESTIAL OBJECTS</span>
@@ -516,18 +330,18 @@
   </div>
 </div>
 
-<!-- FEATURES -->
+<!-- ── FEATURES ── -->
 <section class="features" id="features">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
     <div class="section-label" style="justify-content:center;">Everything you need</div>
     <h2 class="section-title">One app. Every tool your brain needs.</h2>
-    <p class="section-desc" style="margin:0 auto;">No overwhelming dashboards. No generic todo lists. Cosmicore is built around how neurodivergent brains actually work.</p>
+    <p class="section-desc" style="margin:0 auto;">No overwhelming dashboards. No generic to-do lists. Cosmicore is built around how ADHD brains actually work — and any brain that craves structure, novelty, and reward.</p>
   </div>
   <div class="features-grid">
     <div class="feat-card reveal">
       <div class="feat-icon" style="background:rgba(138,90,240,.12);">🌌</div>
       <div class="feat-title">Stellar Forge — Focus Timer</div>
-      <div class="feat-desc">Each focus session forges a real celestial object. 15 minutes makes a moon. 90 minutes makes a galaxy. Your effort becomes something you can see and collect.</div>
+      <div class="feat-desc">Each focus session forges a unique celestial object that's added to your personal galaxy. Your effort becomes something visible, beautiful, and entirely yours.</div>
     </div>
     <div class="feat-card reveal" style="transition-delay:.08s">
       <div class="feat-icon" style="background:rgba(80,200,240,.1);">📅</div>
@@ -537,33 +351,33 @@
     <div class="feat-card reveal" style="transition-delay:.16s">
       <div class="feat-icon" style="background:rgba(255,195,60,.08);">🌟</div>
       <div class="feat-title">Galaxy Collection</div>
-      <div class="feat-desc">Every session you complete adds to your personal galaxy. Moons, planets, stars, nebulae — your collection syncs across all devices.</div>
+      <div class="feat-desc">Every completed session adds a new object to your personal galaxy. Watch it grow session by session, streak by streak — a visual record of everything you've achieved.</div>
     </div>
     <div class="feat-card reveal" style="transition-delay:.24s">
       <div class="feat-icon" style="background:rgba(80,210,150,.08);">🧠</div>
       <div class="feat-title">Orbit Dump — Brain Dump</div>
-      <div class="feat-desc">Capture racing thoughts before they derail you. Park them in the Orbit Dump, clear your mind, and actually focus. A lifesaver for ADHD brains.</div>
+      <div class="feat-desc">Capture racing thoughts before they derail you. Park them in the Orbit Dump, clear your head, and actually focus. A lifesaver for ADHD brains.</div>
     </div>
     <div class="feat-card reveal" style="transition-delay:.32s">
       <div class="feat-icon" style="background:rgba(255,92,92,.08);">🔥</div>
       <div class="feat-title">Stellar Streak + Grace Day</div>
-      <div class="feat-desc">Build your streak without fear. A weekly Grace Day means one off-day won't destroy everything you built. Compassionate by design.</div>
+      <div class="feat-desc">Build your streak without fear. A weekly Grace Day means one off-day won't destroy everything you've built. Compassionate and realistic by design.</div>
     </div>
     <div class="feat-card reveal" style="transition-delay:.40s">
       <div class="feat-icon" style="background:rgba(138,90,240,.12);">🌤️</div>
       <div class="feat-title">Daily Cosmic Weather</div>
-      <div class="feat-desc">Start each day with a quick mood check-in. Stellar? Nebulous? Dark Side? Cosmicore adjusts your day around how you actually feel.</div>
+      <div class="feat-desc">Start each day with a quick mood check-in. Stellar? Nebulous? Dark Side? Cosmicore meets you exactly where you are, every single day.</div>
     </div>
   </div>
 </section>
 
-<!-- ADHD SECTION -->
+<!-- ── ADHD SECTION ── -->
 <section class="adhd-section" id="adhd">
-  <div class="adhd-inner" style="max-width:1100px;margin:0 auto;">
+  <div class="adhd-inner">
     <div class="reveal">
       <div class="section-label">Designed with care</div>
       <h2 class="section-title">Made for brains that work differently.</h2>
-      <p class="section-desc">Most productivity apps were designed for neurotypical people. Cosmicore was built from the ground up for ADHD, autism, dyslexia, anxiety, and every brain in between.</p>
+      <p class="section-desc">Most productivity apps were designed for neurotypical people. Cosmicore was built from the ground up for ADHD — and anyone whose brain craves structure, novelty, and reward to get things done. You're not broken. You just need the right tools.</p>
       <div class="adhd-pills">
         <div class="pill pill-p">🎯 Dopamine-driven rewards</div>
         <div class="pill pill-c">⏰ Pomodoro-based focus</div>
@@ -572,27 +386,21 @@
         <div class="pill pill-p">🚀 Body doubling vibes</div>
         <div class="pill pill-c">⏰ 5-minute transition warnings</div>
         <div class="pill pill-g">🌤️ Mood-aware planning</div>
-        <div class="pill pill-y">✨ Visual + gamified</div>
+        <div class="pill pill-y">✨ Visual and gamified</div>
       </div>
     </div>
     <div class="adhd-visual reveal" style="transition-delay:.2s">
       <div class="planet-wrap">
         <div class="planet-core"></div>
-        <div class="planet-ring">
-          <div class="orbit-dot" style="background:rgba(255,195,60,.95);color:rgba(255,195,60,.95);"></div>
-        </div>
-        <div class="planet-ring">
-          <div class="orbit-dot" style="background:rgba(80,200,240,.95);color:rgba(80,200,240,.95);"></div>
-        </div>
-        <div class="planet-ring">
-          <div class="orbit-dot" style="background:rgba(138,90,240,.95);color:rgba(138,90,240,.95);"></div>
-        </div>
+        <div class="planet-ring" style="animation-duration:8s;"></div>
+        <div class="planet-ring" style="inset:-24px;border-color:rgba(80,200,240,.15);animation-duration:13s;animation-direction:reverse;"></div>
+        <div class="planet-ring" style="inset:-50px;border-color:rgba(255,195,60,.1);animation-duration:20s;"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- ── HOW IT WORKS ── -->
 <section class="how-section" id="how">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
     <div class="section-label" style="justify-content:center;">Simple by design</div>
@@ -602,134 +410,414 @@
     <div class="step reveal">
       <div class="step-num">01</div>
       <div class="step-title">Create your account</div>
-      <div class="step-desc">Sign up in seconds. Pick your focus duration, categories, and connect your Google Calendar if you want. Free forever.</div>
+      <div class="step-desc">Sign up in seconds. Pick your focus duration, set your categories, and connect your Google Calendar. Free forever — no credit card needed.</div>
     </div>
     <div class="step reveal" style="transition-delay:.12s">
       <div class="step-num">02</div>
       <div class="step-title">Initialize your forge</div>
-      <div class="step-desc">Name your session, set your timer, dump any distracting thoughts — then launch. Watch your celestial object form in real time.</div>
+      <div class="step-desc">Name your session, set your timer, dump any distracting thoughts — then launch. Watch your unique celestial object form in real time as you work.</div>
     </div>
     <div class="step reveal" style="transition-delay:.24s">
       <div class="step-num">03</div>
       <div class="step-title">Grow your galaxy</div>
-      <div class="step-desc">Every completed session adds to your personal galaxy. Build streaks, earn XP, and watch your universe expand session by session.</div>
+      <div class="step-desc">Every completed session adds to your personal galaxy. Build streaks, earn XP, level up your Traveler — and watch your universe expand session by session.</div>
     </div>
   </div>
 </section>
 
-<!-- CELESTIAL OBJECTS SHOWCASE -->
+<!-- ── CELESTIAL OBJECTS ── -->
 <section class="celestial-section" id="celestial">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
-    <div class="section-label" style="justify-content:center;">Collect them all</div>
-    <h2 class="section-title reveal">What will you forge next?</h2>
-    <p class="section-desc reveal" style="margin:0 auto;transition-delay:.1s">Five celestial objects, each tied to a focus duration. The longer you focus, the rarer the object.</p>
+    <div class="section-label" style="justify-content:center;">Your collection awaits</div>
+    <h2 class="section-title reveal">What will you forge?</h2>
+    <p class="section-desc reveal" style="margin:0 auto;transition-delay:.1s">Every focus session creates a unique celestial object — and no two are exactly the same. The longer you focus and the further you level up, the rarer and more spectacular your collection becomes.</p>
   </div>
   <div class="cel-row">
+
+    <!-- CRESCENT MOON -->
     <div class="cel-card reveal">
-      <div class="cel-orb" style="width:52px;height:52px;background:radial-gradient(circle at 35% 35%,rgba(210,220,255,.95),rgba(140,155,215,.7));box-shadow:0 0 18px rgba(180,190,255,.4);"></div>
-      <div class="cel-name">MOON</div>
-      <div class="cel-time">15 minutes</div>
+      <div class="cel-svg-wrap">
+        <svg width="72" height="72" viewBox="0 0 80 80" style="animation:moonGlow 3s ease-in-out infinite;overflow:visible;">
+          <defs>
+            <radialGradient id="mg1" cx="30%" cy="25%" r="75%">
+              <stop offset="0%" stop-color="rgba(245,248,255,1)"/>
+              <stop offset="30%" stop-color="rgba(195,210,255,.92)"/>
+              <stop offset="65%" stop-color="rgba(130,155,225,.82)"/>
+              <stop offset="100%" stop-color="rgba(65,88,175,.45)"/>
+            </radialGradient>
+            <clipPath id="mc1"><circle cx="40" cy="40" r="26"/></clipPath>
+          </defs>
+          <circle cx="40" cy="40" r="32" fill="rgba(160,185,255,.07)" style="filter:blur(5px)"/>
+          <circle cx="40" cy="40" r="26" fill="url(#mg1)"/>
+          <ellipse cx="33" cy="44" rx="7.8" ry="5.7" fill="rgba(72,95,178,.24)" clip-path="url(#mc1)"/>
+          <ellipse cx="48" cy="29" rx="5.2" ry="3.9" fill="rgba(68,88,168,.18)" clip-path="url(#mc1)"/>
+          <circle cx="31" cy="33" r="2.3" fill="rgba(55,75,155,.2)" clip-path="url(#mc1)"/>
+          <circle cx="31" cy="33" r="2.3" fill="none" stroke="rgba(165,185,245,.3)" stroke-width=".8" clip-path="url(#mc1)"/>
+          <circle cx="48" cy="48" r="1.8" fill="rgba(55,75,155,.18)" clip-path="url(#mc1)"/>
+          <circle cx="54" cy="38" r="1.4" fill="rgba(55,75,155,.15)" clip-path="url(#mc1)"/>
+          <circle cx="54" cy="37" r="25" fill="rgba(5,3,22,.97)"/>
+          <circle cx="40" cy="40" r="26" fill="none" stroke="rgba(220,232,255,.28)" stroke-width="1.5" style="filter:blur(1px)"/>
+        </svg>
+      </div>
+      <div class="cel-name">CRESCENT MOON</div>
+      <div class="cel-time">Short sessions</div>
+      <div class="cel-hint">+ more moon types</div>
     </div>
+
+    <!-- RINGED PLANET -->
     <div class="cel-card reveal" style="transition-delay:.08s">
-      <div class="cel-orb" style="width:60px;height:60px;background:radial-gradient(circle at 35% 30%,rgba(180,130,255,.95),rgba(90,40,220,.7));box-shadow:0 0 22px rgba(138,90,240,.5);"></div>
-      <div class="cel-name">PLANET</div>
-      <div class="cel-time">25 minutes</div>
+      <div class="cel-svg-wrap">
+        <svg width="100" height="72" viewBox="-10 -5 100 80" overflow="visible" style="overflow:visible;animation:planetGlow 3.5s ease-in-out infinite;">
+          <defs>
+            <radialGradient id="pg1" cx="33%" cy="27%" r="80%">
+              <stop offset="0%" stop-color="rgba(225,198,255,1)"/>
+              <stop offset="22%" stop-color="rgba(172,118,255,.95)"/>
+              <stop offset="55%" stop-color="rgba(105,55,218,.88)"/>
+              <stop offset="100%" stop-color="rgba(28,6,88,.5)"/>
+            </radialGradient>
+            <radialGradient id="pspec1" cx="28%" cy="22%" r="50%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.5)"/>
+              <stop offset="100%" stop-color="rgba(180,145,255,0)"/>
+            </radialGradient>
+            <clipPath id="ptop1"><rect x="-20" y="-10" width="120" height="45"/></clipPath>
+            <clipPath id="pbot1"><rect x="-20" y="35" width="120" height="60"/></clipPath>
+            <clipPath id="pbody1"><circle cx="40" cy="35" r="24"/></clipPath>
+          </defs>
+          <circle cx="40" cy="35" r="30" fill="rgba(115,60,230,.14)" style="filter:blur(8px)"/>
+          <ellipse cx="40" cy="35" rx="56" ry="11" fill="none" stroke="rgba(200,170,255,.35)" stroke-width="10" clip-path="url(#pbot1)"/>
+          <ellipse cx="40" cy="35" rx="48" ry="9.5" fill="none" stroke="rgba(155,110,248,.25)" stroke-width="5" clip-path="url(#pbot1)"/>
+          <circle cx="40" cy="35" r="24" fill="url(#pg1)"/>
+          <ellipse cx="40" cy="24" rx="23" ry="2.6" fill="rgba(145,95,245,.14)" clip-path="url(#pbody1)"/>
+          <ellipse cx="40" cy="30" rx="23" ry="1.7" fill="rgba(88,38,182,.09)" clip-path="url(#pbody1)"/>
+          <ellipse cx="40" cy="38" rx="23" ry="2.6" fill="rgba(145,95,245,.12)" clip-path="url(#pbody1)"/>
+          <ellipse cx="40" cy="46" rx="23" ry="1.7" fill="rgba(88,38,182,.09)" clip-path="url(#pbody1)"/>
+          <ellipse cx="29" cy="25" rx="7" ry="4" fill="url(#pspec1)" clip-path="url(#pbody1)"/>
+          <ellipse cx="40" cy="35" rx="56" ry="11" fill="none" stroke="rgba(208,178,255,.55)" stroke-width="10" clip-path="url(#ptop1)"/>
+          <ellipse cx="40" cy="35" rx="48" ry="9.5" fill="none" stroke="rgba(162,118,252,.42)" stroke-width="5" clip-path="url(#ptop1)"/>
+        </svg>
+      </div>
+      <div class="cel-name">RINGED PLANET</div>
+      <div class="cel-time">Medium sessions</div>
+      <div class="cel-hint">+ more planet types</div>
     </div>
+
+    <!-- GOLDEN STAR -->
     <div class="cel-card reveal" style="transition-delay:.16s">
-      <div class="cel-orb" style="width:68px;height:68px;background:radial-gradient(circle at 38% 32%,rgba(255,230,100,.95),rgba(255,150,40,.7));box-shadow:0 0 28px rgba(255,195,60,.55);"></div>
-      <div class="cel-name">STAR</div>
-      <div class="cel-time">45 minutes</div>
+      <div class="cel-svg-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="animation:starGlow 2.5s ease-in-out infinite;overflow:visible;">
+          <defs>
+            <radialGradient id="sg1" cx="44%" cy="38%" r="70%">
+              <stop offset="0%" stop-color="rgba(255,255,225,1)"/>
+              <stop offset="20%" stop-color="rgba(255,238,130,.96)"/>
+              <stop offset="55%" stop-color="rgba(255,188,42,.88)"/>
+              <stop offset="100%" stop-color="rgba(215,72,8,.4)"/>
+            </radialGradient>
+          </defs>
+          <circle cx="40" cy="40" r="30" fill="rgba(255,210,80,.18)" style="filter:blur(10px)"/>
+          <line x1="3" y1="40" x2="77" y2="40" stroke="rgba(255,238,148,.48)" stroke-width="2.2" stroke-linecap="round" style="filter:blur(1px)"/>
+          <line x1="40" y1="3" x2="40" y2="77" stroke="rgba(255,238,148,.48)" stroke-width="2.2" stroke-linecap="round" style="filter:blur(1px)"/>
+          <line x1="12" y1="12" x2="68" y2="68" stroke="rgba(255,220,110,.26)" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="68" y1="12" x2="12" y2="68" stroke="rgba(255,220,110,.26)" stroke-width="1.4" stroke-linecap="round"/>
+          <polygon points="40,18 44.7,33.3 60.5,33.3 47.9,42.7 52.6,58 40,48.6 27.4,58 32.1,42.7 19.5,33.3 35.3,33.3" fill="url(#sg1)"/>
+          <circle cx="40" cy="40" r="7" fill="rgba(255,252,238,1)" style="filter:blur(2px)"/>
+          <circle cx="40" cy="40" r="3.5" fill="rgba(255,255,255,1)"/>
+        </svg>
+      </div>
+      <div class="cel-name">GOLDEN STAR</div>
+      <div class="cel-time">Longer sessions</div>
+      <div class="cel-hint">+ more star types</div>
     </div>
+
+    <!-- NEBULA -->
     <div class="cel-card reveal" style="transition-delay:.24s">
-      <div class="cel-orb" style="width:72px;height:72px;background:radial-gradient(circle at 40% 35%,rgba(100,220,200,.95),rgba(40,160,200,.7));box-shadow:0 0 30px rgba(80,200,240,.5);"></div>
-      <div class="cel-name">NEBULA</div>
-      <div class="cel-time">60 minutes</div>
+      <div class="cel-svg-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="animation:nebulaGlow 3.5s ease-in-out infinite;overflow:visible;">
+          <defs>
+            <radialGradient id="nb1a" cx="36%" cy="44%"><stop offset="0%" stop-color="rgba(148,62,255,.95)"/><stop offset="100%" stop-color="rgba(60,5,148,0)"/></radialGradient>
+            <radialGradient id="nb2a" cx="64%" cy="54%"><stop offset="0%" stop-color="rgba(42,188,248,.88)"/><stop offset="100%" stop-color="rgba(8,95,195,0)"/></radialGradient>
+            <radialGradient id="nb3a" cx="50%" cy="24%"><stop offset="0%" stop-color="rgba(255,68,215,.65)"/><stop offset="100%" stop-color="rgba(148,0,115,0)"/></radialGradient>
+            <radialGradient id="nb4a" cx="60%" cy="74%"><stop offset="0%" stop-color="rgba(62,245,185,.55)"/><stop offset="100%" stop-color="rgba(28,175,128,0)"/></radialGradient>
+          </defs>
+          <ellipse cx="36" cy="42" rx="30" ry="24" fill="url(#nb1a)" style="filter:blur(6px)"/>
+          <ellipse cx="48" cy="44" rx="25" ry="20" fill="url(#nb2a)" style="filter:blur(4px)"/>
+          <ellipse cx="40" cy="26" rx="18" ry="14" fill="url(#nb3a)" style="filter:blur(5px)"/>
+          <ellipse cx="50" cy="56" rx="14" ry="10" fill="url(#nb4a)" style="filter:blur(4px)"/>
+          <circle cx="38" cy="36" r="1.8" fill="rgba(255,255,255,.95)" style="filter:blur(.4px)"/>
+          <circle cx="52" cy="42" r="1.2" fill="rgba(255,255,255,.8)"/>
+          <circle cx="30" cy="50" r="1" fill="rgba(255,255,255,.7)"/>
+          <circle cx="46" cy="28" r="1.5" fill="rgba(255,255,255,.9)" style="filter:blur(.3px)"/>
+          <circle cx="58" cy="38" r=".9" fill="rgba(255,255,255,.7)"/>
+        </svg>
+      </div>
+      <div class="cel-name">NEBULA CLOUD</div>
+      <div class="cel-time">Extended sessions</div>
+      <div class="cel-hint">+ more nebula types</div>
     </div>
+
+    <!-- SPIRAL GALAXY -->
     <div class="cel-card reveal" style="transition-delay:.32s">
-      <div class="cel-orb" style="width:78px;height:78px;background:radial-gradient(circle at 35% 30%,rgba(255,180,240,.95),rgba(160,60,220,.7));box-shadow:0 0 35px rgba(200,80,240,.55);animation-duration:2s;"></div>
-      <div class="cel-name">GALAXY</div>
-      <div class="cel-time">90 minutes</div>
+      <div class="cel-svg-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="animation:galaxyGlow 3s ease-in-out infinite;overflow:visible;">
+          <defs>
+            <radialGradient id="galg1" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="rgba(255,220,255,1)"/>
+              <stop offset="18%" stop-color="rgba(208,155,255,.95)"/>
+              <stop offset="45%" stop-color="rgba(145,75,235,.7)"/>
+              <stop offset="100%" stop-color="rgba(55,8,145,0)"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="40" cy="40" rx="36" ry="20" fill="rgba(130,55,220,.1)" style="filter:blur(8px)"/>
+          <path d="M40,40 Q52,28 58,18 Q60,12 54,16 Q44,22 40,40" fill="none" stroke="rgba(195,150,255,.52)" stroke-width="5" stroke-linecap="round" style="filter:blur(2px)"/>
+          <path d="M40,40 Q28,52 22,62 Q20,68 26,64 Q36,58 40,40" fill="none" stroke="rgba(195,150,255,.52)" stroke-width="5" stroke-linecap="round" style="filter:blur(2px)"/>
+          <path d="M40,40 Q55,45 64,52 Q70,56 65,52 Q56,44 40,40" fill="none" stroke="rgba(140,100,255,.38)" stroke-width="3.5" stroke-linecap="round" style="filter:blur(2px)"/>
+          <path d="M40,40 Q25,35 16,28 Q10,24 15,28 Q24,36 40,40" fill="none" stroke="rgba(140,100,255,.38)" stroke-width="3.5" stroke-linecap="round" style="filter:blur(2px)"/>
+          <ellipse cx="40" cy="40" rx="26" ry="7" fill="rgba(30,5,80,.25)" style="filter:blur(2px)"/>
+          <circle cx="40" cy="40" r="9" fill="url(#galg1)" style="filter:blur(1.5px)"/>
+          <circle cx="40" cy="40" r="4" fill="rgba(255,240,255,1)" style="filter:blur(.8px)"/>
+          <circle cx="52" cy="30" r=".9" fill="rgba(255,255,255,.8)"/>
+          <circle cx="28" cy="50" r=".8" fill="rgba(255,255,255,.75)"/>
+          <circle cx="58" cy="46" r=".7" fill="rgba(255,255,255,.7)"/>
+          <circle cx="22" cy="34" r=".8" fill="rgba(255,255,255,.7)"/>
+          <circle cx="46" cy="22" r=".7" fill="rgba(255,255,255,.75)"/>
+        </svg>
+      </div>
+      <div class="cel-name">SPIRAL GALAXY</div>
+      <div class="cel-time">Marathon sessions</div>
+      <div class="cel-hint">+ more galaxy types</div>
+    </div>
+
+  </div>
+
+  <!-- teaser strip -->
+  <div class="reveal" style="max-width:860px;margin:44px auto 0;padding:24px 32px;border-radius:14px;background:rgba(138,90,240,.06);border:1px solid rgba(138,90,240,.16);text-align:center;transition-delay:.4s;">
+    <p style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(138,90,240,.9);margin-bottom:10px;">✦ MORE OBJECTS UNLOCKING AS YOU LEVEL UP ✦</p>
+    <p style="font-size:.88rem;color:rgba(175,185,245,.75);line-height:1.7;">Asteroids · Constellations · Meteors · Pulsars · Quasars · Black Holes · and many more rare objects waiting to be discovered the deeper you go into your cosmos.</p>
+  </div>
+</section>
+
+<!-- ── WORKS ON ANY DEVICE ── -->
+<section class="devices-section" id="devices">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Wherever you are</div>
+      <h2 class="section-title">Desktop. Tablet. Mobile.<br/>Your forge never stops.</h2>
+      <p class="section-desc" style="margin:16px auto 0;">Cosmicore is a web app — no download needed. Open it on your phone, laptop, or tablet and your galaxy syncs perfectly across every device.</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="device-tabs reveal" style="transition-delay:.1s">
+      <button class="device-tab active" onclick="switchTab('desktop',this)">🖥 Desktop</button>
+      <button class="device-tab" onclick="switchTab('mobile',this)">📱 Mobile</button>
+    </div>
+
+    <!-- DESKTOP VIEW -->
+    <div class="device-view active reveal" id="tab-desktop" style="transition-delay:.2s">
+      <div class="device-desktop-wrap">
+        <div class="device-topbar">
+          <div class="d-dot" style="background:rgba(255,92,92,.7);"></div>
+          <div class="d-dot" style="background:rgba(255,195,60,.7);"></div>
+          <div class="d-dot" style="background:rgba(80,210,150,.7);"></div>
+          <div style="flex:1;height:16px;background:rgba(255,255,255,.05);border-radius:3px;margin-left:8px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.36rem;color:rgba(155,165,225,.45);letter-spacing:.08em;">cosmicore.vercel.app</div>
+        </div>
+        <div class="device-inner">
+          <div class="d-sidebar">
+            <div class="d-logo">COSMICORE</div>
+            <div class="d-nav on">⬡ Dashboard</div>
+            <div class="d-nav">📅 Calendar</div>
+            <div class="d-nav">◉ Focus Mode</div>
+            <div class="d-nav">🌌 Galaxy</div>
+            <div class="d-nav">⚙ Settings</div>
+          </div>
+          <div class="d-content">
+            <div class="d-card">
+              <div class="d-card-t">⚡ QUICK LAUNCH — WHAT WILL YOU FORGE TODAY?</div>
+              <div style="display:flex;gap:6px;">
+                <div style="flex:1;height:18px;background:rgba(255,255,255,.05);border-radius:3px;border:1px solid rgba(138,90,240,.18);"></div>
+                <div style="width:60px;height:18px;border-radius:3px;background:linear-gradient(130deg,rgba(138,90,240,.75),rgba(80,40,200,.75));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.38rem;color:#fff;letter-spacing:.08em;">🚀 LAUNCH</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+              <div class="d-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;">
+                <div style="width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(160,120,255,.9),rgba(80,40,200,.6));box-shadow:0 0 14px rgba(138,90,240,.5);margin-bottom:4px;"></div>
+                <div style="font-family:'Orbitron',monospace;font-size:.7rem;font-weight:900;color:rgba(240,235,255,.99);">24:38</div>
+                <div style="font-size:.38rem;color:rgba(175,185,235,.6);letter-spacing:.08em;margin-top:2px;">STELLAR FORGE</div>
+              </div>
+              <div class="d-card">
+                <div class="d-card-t">□ TODAY'S ORBIT</div>
+                <div style="height:11px;background:rgba(255,255,255,.05);border-radius:2px;border-left:2px solid rgba(138,90,240,.5);margin-bottom:3px;"></div>
+                <div style="height:11px;background:rgba(80,210,150,.05);border-radius:2px;border-left:2px solid rgba(80,210,150,.4);margin-bottom:3px;"></div>
+                <div style="height:11px;background:rgba(255,255,255,.03);border-radius:2px;border-left:2px solid rgba(255,165,55,.3);"></div>
+              </div>
+            </div>
+            <div class="d-card">
+              <div class="d-card-t" style="margin-bottom:5px;">◎ LEVEL PROGRESS — NEBULA NAVIGATOR</div>
+              <div class="d-bar"><div class="d-bar-f" style="width:68%;"></div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:3px;">
+                <div style="font-size:.38rem;color:rgba(175,185,235,.6);">Level 4</div>
+                <div style="font-size:.38rem;color:rgba(138,90,240,.9);">682 / 1000 XP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE VIEW -->
+    <div class="device-view" id="tab-mobile">
+      <div class="device-phone-wrap">
+        <div class="p-topbar"><div class="p-notch"></div></div>
+        <div class="p-inner">
+          <div class="p-logo">COSMICORE</div>
+          <div class="p-card">
+            <div class="p-card-t">⚡ QUICK LAUNCH</div>
+            <div style="height:13px;background:rgba(255,255,255,.05);border-radius:3px;border:1px solid rgba(138,90,240,.15);margin-bottom:4px;"></div>
+            <div style="height:17px;background:linear-gradient(130deg,rgba(138,90,240,.7),rgba(80,40,200,.7));border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.38rem;color:#fff;letter-spacing:.08em;">🚀 LAUNCH</div>
+          </div>
+          <div class="p-card" style="display:flex;flex-direction:column;align-items:center;padding:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(160,120,255,.9),rgba(80,40,200,.6));box-shadow:0 0 14px rgba(138,90,240,.5);margin-bottom:5px;"></div>
+            <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:900;color:rgba(240,235,255,.99);">24:38</div>
+            <div style="font-size:.38rem;color:rgba(175,185,235,.6);letter-spacing:.08em;margin-top:2px;">STELLAR FORGE</div>
+          </div>
+          <div class="p-card">
+            <div class="p-card-t" style="margin-bottom:3px;">□ TODAY'S ORBIT</div>
+            <div style="height:11px;background:rgba(255,255,255,.05);border-radius:2px;border-left:2px solid rgba(138,90,240,.5);margin-bottom:3px;"></div>
+            <div style="height:11px;background:rgba(80,210,150,.05);border-radius:2px;border-left:2px solid rgba(80,210,150,.4);margin-bottom:3px;"></div>
+            <div style="height:11px;background:rgba(255,255,255,.03);border-radius:2px;border-left:2px solid rgba(255,165,55,.3);"></div>
+          </div>
+          <div class="p-card">
+            <div class="p-card-t" style="margin-bottom:3px;">◎ PROGRESS</div>
+            <div class="d-bar"><div class="d-bar-f" style="width:68%;"></div></div>
+          </div>
+          <div class="p-nav">
+            <div class="p-nav-i on">⬡<br/>Home</div>
+            <div class="p-nav-i">📅<br/>Cal</div>
+            <div class="p-nav-i">◉<br/>Focus</div>
+            <div class="p-nav-i">🌌<br/>Galaxy</div>
+            <div class="p-nav-i">⚙</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="text-align:center;margin-top:32px;font-size:.82rem;color:rgba(138,90,240,.8);letter-spacing:.06em;transition-delay:.3s;">✦ No download needed &nbsp;·&nbsp; ✦ Works on any browser &nbsp;·&nbsp; ✦ Your galaxy syncs everywhere</p>
+  </div>
+</section>
+
+<!-- ── LEVELS ── -->
+<section class="levels-section" id="levels">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <div class="section-label" style="justify-content:center;">Progress system</div>
+    <h2 class="section-title reveal">The more you focus, the further you travel.</h2>
+    <p class="section-desc reveal" style="margin:0 auto;transition-delay:.1s">Every session earns XP. Every level unlocks new titles, new celestial objects, and new challenges. Your cosmic journey never ends.</p>
+  </div>
+  <div class="levels-row">
+    <div class="level-card reveal">
+      <div class="level-num">LEVEL 1</div>
+      <div class="level-icon">✦</div>
+      <div class="level-name">Stardust Initiate</div>
+      <div class="level-desc">Your journey begins. Every great galaxy starts with a single focus session.</div>
+    </div>
+    <div class="level-card reveal" style="transition-delay:.08s">
+      <div class="level-num">LEVEL 2</div>
+      <div class="level-icon">🌙</div>
+      <div class="level-name">Lunar Apprentice</div>
+      <div class="level-desc">Building momentum. Moons are forming and your collection is growing.</div>
+    </div>
+    <div class="level-card lit reveal" style="transition-delay:.16s">
+      <div class="level-num">LEVEL 3</div>
+      <div class="level-icon">🪐</div>
+      <div class="level-name">Orbit Forger</div>
+      <div class="level-desc">Planets are in your hands. You're developing a real rhythm of focus.</div>
+    </div>
+    <div class="level-card reveal" style="transition-delay:.24s">
+      <div class="level-lock">🔒</div>
+      <div class="level-num">LEVEL 4</div>
+      <div class="level-icon">⭐</div>
+      <div class="level-name">Nebula Navigator</div>
+      <div class="level-desc">Stars, nebulae, rare objects — your galaxy is becoming spectacular.</div>
+    </div>
+    <div class="level-card reveal" style="transition-delay:.32s">
+      <div class="level-lock">🔒</div>
+      <div class="level-num">AND BEYOND</div>
+      <div class="level-icon">🌌</div>
+      <div class="level-name">Galaxy Commander</div>
+      <div class="level-desc">More levels, titles, and rare celestial objects await the truly dedicated Traveler.</div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- ── CTA ── -->
 <section class="cta-section">
   <div class="reveal">
     <h2 class="cta-title">Your galaxy is waiting.<br/>Start forging today.</h2>
-    <p class="cta-sub">Free to use. No credit card. No downloads. Works on any device, right in your browser.</p>
+    <p class="cta-sub">Free to use. No credit card. No downloads required. Works on any device, right in your browser.</p>
     <a href="https://cosmicore.vercel.app" class="btn-primary" target="_blank" style="display:inline-flex;font-size:.8rem;padding:17px 44px;">
       🚀 Launch Cosmicore — Free
     </a>
-    <p class="cta-note">✦ Works on desktop, tablet & mobile &nbsp;·&nbsp; ✦ Google Calendar sync &nbsp;·&nbsp; ✦ Free forever</p>
+    <p class="cta-note">✦ Desktop · Tablet · Mobile &nbsp;·&nbsp; ✦ Google Calendar sync &nbsp;·&nbsp; ✦ Free forever</p>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-logo">COSMICORE</div>
   <div class="footer-links">
     <a href="https://cosmicore.vercel.app" target="_blank">Launch App</a>
     <a href="#features">Features</a>
-    <a href="#adhd">About</a>
-    <a href="#how">How it Works</a>
+    <a href="#adhd">Who It's For</a>
+    <a href="#how">How It Works</a>
+    <a href="#celestial">Celestial Objects</a>
+    <a href="#levels">Levels</a>
   </div>
-  <div class="footer-copy">© 2025 Cosmicore · Built with ✦ for neurodivergent minds</div>
+  <div class="footer-copy">© 2025 Cosmicore · Built with ✦ for minds that think differently</div>
 </footer>
 
 <script>
-  // ── STARFIELD ──
+  // STARFIELD
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');
   let stars = [];
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   function initStars() {
-    stars = Array.from({length: 200}, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.4 + 0.2,
-      o: Math.random() * 0.7 + 0.15,
-      speed: Math.random() * 0.4 + 0.1,
-      phase: Math.random() * Math.PI * 2,
+    stars = Array.from({length:220}, () => ({
+      x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+      r: Math.random()*1.4+0.2, o: Math.random()*0.65+0.15,
+      speed: Math.random()*0.4+0.1, phase: Math.random()*Math.PI*2,
     }));
   }
-
-  function drawStars(t) {
+  let t = 0;
+  function draw() {
+    t += 0.016;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(s => {
-      const flicker = s.o * (0.7 + 0.3 * Math.sin(t * s.speed + s.phase));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(220,228,255,${flicker})`;
-      ctx.fill();
+      const flicker = s.o*(0.7+0.3*Math.sin(t*s.speed+s.phase));
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(220,228,255,${flicker})`; ctx.fill();
     });
-    requestAnimationFrame(drawStars);
+    requestAnimationFrame(draw);
   }
+  resize(); initStars(); draw();
+  window.addEventListener('resize', ()=>{ resize(); initStars(); });
 
-  resize();
-  initStars();
-  requestAnimationFrame(drawStars);
-  window.addEventListener('resize', () => { resize(); initStars(); });
+  // SCROLL REVEAL
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // ── SCROLL REVEAL ──
-  const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => observer.observe(el));
-
-  // ── NAV SCROLL STYLE ──
+  // NAV SCROLL
   window.addEventListener('scroll', () => {
     document.querySelector('nav').style.background =
       window.scrollY > 60 ? 'rgba(4,2,18,.96)' : 'rgba(6,4,26,.82)';
   });
+
+  // DEVICE TAB SWITCHER
+  function switchTab(id, btn) {
+    document.querySelectorAll('.device-view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.device-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-'+id).classList.add('active');
+    btn.classList.add('active');
+  }
 </script>
 </body>
 </html>
