@@ -81,7 +81,7 @@ h1.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,4.5vw,3.8re
 .xp-badge{top:60px;right:-20px;background:linear-gradient(135deg,rgba(138,90,240,.9),rgba(90,32,200,.9));color:#fff;border:1px solid rgba(188,165,255,.3);box-shadow:0 8px 32px rgba(138,90,240,.4);font-family:'Orbitron',sans-serif;letter-spacing:.08em;animation-delay:0s;}
 .streak-badge{bottom:100px;left:-30px;background:linear-gradient(135deg,rgba(255,150,50,.9),rgba(220,100,20,.9));color:#fff;border:1px solid rgba(255,200,100,.3);box-shadow:0 8px 32px rgba(255,120,40,.4);animation-delay:2s;}
 @keyframes float-badge{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.hero-phone{width:240px;height:500px;background:linear-gradient(160deg,#0f0d2e,#08061e);border:1.5px solid rgba(138,90,240,.4);border-radius:36px;overflow:hidden;box-shadow:0 0 0 1px rgba(138,90,240,.1),0 0 80px rgba(138,90,240,.25),0 40px 80px rgba(0,0,0,.6);position:relative;z-index:5;animation:float 7s ease-in-out infinite;}
+.hero-phone{width:240px;height:540px;background:linear-gradient(160deg,#0f0d2e,#08061e);border:1.5px solid rgba(138,90,240,.4);border-radius:36px;overflow:hidden;box-shadow:0 0 0 1px rgba(138,90,240,.1),0 0 80px rgba(138,90,240,.25),0 40px 80px rgba(0,0,0,.6);position:relative;z-index:5;animation:float 7s ease-in-out infinite;}
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-18px);}}
 .hp-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:70px;height:5px;background:rgba(0,0,0,.7);border-radius:10px;z-index:20;}
 .hp-status{display:flex;justify-content:space-between;align-items:center;padding:32px 14px 8px;}
@@ -114,6 +114,17 @@ h1.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,4.5vw,3.8re
 @keyframes live-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(80,218,152,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(80,218,152,0);}}
 .hp-live-txt{font-size:.46rem;color:rgba(80,218,152,.8);flex:1;}
 .hp-live-pu{font-size:.4rem;color:rgba(80,218,152,.6);font-family:'Orbitron',sans-serif;letter-spacing:.08em;}
+.hp-streak-card{margin:6px 12px 0;padding:8px 10px;background:rgba(255,165,60,.05);border:1px solid rgba(255,165,60,.12);border-radius:8px;}
+.hp-streak-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.hp-streak-fire{font-size:.9rem;}
+.hp-streak-title{font-family:'Orbitron',sans-serif;font-size:.38rem;color:rgba(255,180,60,.7);letter-spacing:.1em;margin-bottom:3px;}
+.hp-streak-bar{height:2px;background:rgba(255,165,60,.12);border-radius:2px;overflow:hidden;}
+.hp-streak-fill{height:100%;width:70%;background:linear-gradient(90deg,rgba(255,130,40,.8),rgba(255,190,60,.9));border-radius:2px;}
+.hp-streak-count{font-family:'Orbitron',sans-serif;font-size:.45rem;color:rgba(255,180,60,.85);white-space:nowrap;}
+.hp-xp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+.hp-lvl-bar{height:2px;background:rgba(138,90,240,.12);border-radius:2px;overflow:hidden;}
+.hp-lvl-fill{height:100%;width:58%;background:linear-gradient(90deg,var(--pu3),var(--pu2));border-radius:2px;}
+.hp-next-forge{margin:6px 12px 0;padding:7px 10px;background:rgba(138,90,240,.05);border:1px solid rgba(138,90,240,.12);border-radius:8px;display:flex;align-items:center;gap:8px;}
 .hp-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(8,6,30,.95);border-top:1px solid rgba(138,90,240,.15);display:flex;justify-content:space-around;padding:8px 0 10px;}
 .hp-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.38rem;color:rgba(155,165,225,.45);font-family:'Orbitron',sans-serif;letter-spacing:.04em;}
 .hp-nav-item span:first-child{font-size:.8rem;}
@@ -466,6 +477,31 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
           <div class="hp-live-dot"></div>
           <span class="hp-live-txt">4 travelers forging right now</span>
           <span class="hp-live-pu">✦ LIVE</span>
+        </div>
+        <!-- Streak & XP progress -->
+        <div class="hp-streak-card">
+          <div class="hp-streak-row">
+            <span class="hp-streak-fire">🔥</span>
+            <div style="flex:1">
+              <div class="hp-streak-title">STELLAR STREAK</div>
+              <div class="hp-streak-bar"><div class="hp-streak-fill"></div></div>
+            </div>
+            <span class="hp-streak-count">7 days</span>
+          </div>
+          <div class="hp-xp-row">
+            <span style="font-size:.42rem;color:rgba(155,165,225,.5);">Level 4 · Nebula Navigator</span>
+            <span style="font-size:.42rem;color:rgba(138,90,240,.7);font-family:'Orbitron',sans-serif;">582 XP</span>
+          </div>
+          <div class="hp-lvl-bar"><div class="hp-lvl-fill"></div></div>
+        </div>
+        <!-- Next forge suggestion -->
+        <div class="hp-next-forge">
+          <span style="font-size:.75rem;">⭐</span>
+          <div style="flex:1">
+            <div style="font-size:.44rem;color:rgba(188,165,255,.5);font-family:'Orbitron',sans-serif;letter-spacing:.08em;">NEXT OBJECT</div>
+            <div style="font-size:.52rem;color:rgba(220,230,255,.9);">Complete 2 more sessions</div>
+          </div>
+          <span style="font-size:.48rem;color:rgba(138,90,240,.7);font-family:'Orbitron',sans-serif;">→</span>
         </div>
         <!-- Bottom nav -->
         <div class="hp-nav">
