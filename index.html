@@ -414,7 +414,7 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <p class="hero-sub">Every focus session you complete forges a celestial object. Stars, planets, nebulae — your consistency becomes your cosmos. The productivity app that makes deep work addictive.</p>
     <div class="hero-btns">
       <a href="https://cosmicore.vercel.app" class="btn-primary">✦ &nbsp;Start For Free</a>
-      <a href="https://cosmicore.vercel.app" class="btn-secondary" onclick="alert('Open cosmicore.vercel.app in Chrome, click the install icon (⊕) in the address bar, and click Install. Your app will appear on your desktop!');return false;">↓ &nbsp;Install Desktop App</a>
+      <a href="https://cosmicore.vercel.app" class="btn-secondary" id="install-btn" target="_blank">↓ &nbsp;Install Desktop App</a>
     </div>
     <div class="hero-trust">
       <div class="trust-avatars"><span>A</span><span>Z</span><span>H</span><span>R</span></div>
@@ -831,6 +831,26 @@ document.querySelectorAll('[data-target]').forEach(el=>countObs.observe(el));
 let lastY=0;const nav=document.getElementById('main-nav');
 nav.style.transition='transform .3s ease';
 window.addEventListener('scroll',()=>{const y=window.scrollY;nav.style.transform=y>100&&y>lastY?'translateY(-100%)':'translateY(0)';lastY=y;},{passive:true});
+
+// PWA INSTALL
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('install-btn');
+  if(btn) {
+    btn.onclick = async(ev) => {
+      ev.preventDefault();
+      if(deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      } else {
+        window.open('https://cosmicore.vercel.app','_blank');
+      }
+    };
+  }
+});
 
 // PARALLAX ORBS
 window.addEventListener('mousemove',e=>{
