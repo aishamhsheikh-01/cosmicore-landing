@@ -109,11 +109,25 @@ h1.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,4.5vw,3.8re
 .hp-cb{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(138,90,240,.45);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.35rem;}
 .hp-cb.done{background:rgba(80,218,152,.7);border-color:rgba(80,218,152,.7);color:#fff;}
 .hp-xp-gain{margin-left:auto;font-size:.44rem;color:rgba(80,218,152,.8);font-family:'Orbitron',sans-serif;background:rgba(80,218,152,.08);padding:1px 5px;border-radius:4px;}
+.hp-live{display:flex;align-items:center;gap:6px;margin:6px 12px 0;padding:6px 10px;background:rgba(80,218,152,.06);border:1px solid rgba(80,218,152,.15);border-radius:8px;}
+.hp-live-dot{width:6px;height:6px;border-radius:50%;background:#50da98;flex-shrink:0;animation:live-pulse 1.5s ease-in-out infinite;}
+@keyframes live-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(80,218,152,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(80,218,152,0);}}
+.hp-live-txt{font-size:.46rem;color:rgba(80,218,152,.8);flex:1;}
+.hp-live-pu{font-size:.4rem;color:rgba(80,218,152,.6);font-family:'Orbitron',sans-serif;letter-spacing:.08em;}
 .hp-nav{position:absolute;bottom:0;left:0;right:0;background:rgba(8,6,30,.95);border-top:1px solid rgba(138,90,240,.15);display:flex;justify-content:space-around;padding:8px 0 10px;}
 .hp-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.38rem;color:rgba(155,165,225,.45);font-family:'Orbitron',sans-serif;letter-spacing:.04em;}
 .hp-nav-item span:first-child{font-size:.8rem;}
 .hp-nav-item.active{color:var(--pu2);}
-@media(max-width:900px){.hero{flex-direction:column;text-align:center;padding-top:100px;}.hero-right{display:none;}.hero-btns{justify-content:center;}.hero-trust{justify-content:center;}}
+@media(max-width:900px){
+  .hero{flex-direction:column;text-align:center;padding-top:100px;align-items:center;}
+  .hero-right{display:flex;justify-content:center;margin-top:20px;}
+  .phone-scene{width:220px;height:420px;transform:scale(0.82);transform-origin:top center;}
+  .float-badge{font-size:.55rem;padding:5px 10px;}
+  .xp-badge{right:-10px;top:40px;}
+  .streak-badge{left:-15px;bottom:80px;}
+  .hero-btns{justify-content:center;}
+  .hero-trust{justify-content:center;}
+}
 @media(max-width:600px){.hero{padding:90px 20px 60px;}}
 
 /* STATS */
@@ -383,8 +397,8 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <h1 class="hero-title">Forge Your Focus.<br><span class="glow-text">Build Your Universe.</span></h1>
     <p class="hero-sub">Every focus session you complete forges a celestial object. Stars, planets, nebulae — your consistency becomes your cosmos. The productivity app that makes deep work addictive.</p>
     <div class="hero-btns">
-      <a href="https://cosmicore.vercel.app/#signup" class="btn-primary">✦ &nbsp;Start For Free</a>
-      <a href="https://cosmicore.vercel.app" class="btn-secondary">↗ &nbsp;Open App</a>
+      <a href="https://cosmicore.vercel.app" class="btn-primary">✦ &nbsp;Start For Free</a>
+      <a href="https://cosmicore.vercel.app" class="btn-secondary" onclick="alert('Open cosmicore.vercel.app in Chrome, click the install icon (⊕) in the address bar, and click Install. Your app will appear on your desktop!');return false;">↓ &nbsp;Install Desktop App</a>
     </div>
     <div class="hero-trust">
       <div class="trust-avatars"><span>A</span><span>Z</span><span>H</span><span>R</span></div>
@@ -446,6 +460,12 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
             <div class="hp-cb"></div>
             <span>Architecture deep work</span>
           </div>
+        </div>
+        <!-- Body doubling / forgers live -->
+        <div class="hp-live">
+          <div class="hp-live-dot"></div>
+          <span class="hp-live-txt">4 travelers forging right now</span>
+          <span class="hp-live-pu">✦ LIVE</span>
         </div>
         <!-- Bottom nav -->
         <div class="hp-nav">
@@ -709,8 +729,8 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <h2 class="cta-title">Ready to forge your<br>first celestial object?</h2>
     <p class="cta-sub">Free forever. No credit card needed. Your first star is one focus session away.</p>
     <div class="cta-btns">
-      <a href="https://cosmicore.vercel.app/#signup" class="btn-primary">✦ &nbsp;Begin My Journey — Free</a>
-      <a href="https://cosmicore.vercel.app" class="btn-secondary">↗ &nbsp;See the App</a>
+      <a href="https://cosmicore.vercel.app" class="btn-primary">✦ &nbsp;Begin My Journey — Free</a>
+      <a href="https://cosmicore.vercel.app" class="btn-secondary">↗ &nbsp;Open App</a>
     </div>
   </div>
 </section>
