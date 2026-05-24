@@ -703,19 +703,28 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <p class="sec-sub tc" style="margin:0 auto;">From a humble star to a roaring supernova — your focus history becomes a living, breathing cosmos.</p>
   </div>
   <div class="showcase-inner reveal">
+    <style>
+      .objects-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:700px;margin:0 auto;}
+      @media(max-width:600px){.objects-grid{grid-template-columns:repeat(3,1fr);}}
+      .obj{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;border-radius:14px;border:1px solid rgba(138,90,240,.15);background:rgba(14,10,35,.6);transition:all .2s;}
+      .obj:hover{border-color:rgba(138,90,240,.4);transform:translateY(-4px);box-shadow:0 8px 30px rgba(138,90,240,.2);}
+      .obj img{width:60px;height:60px;border-radius:50%;object-fit:cover;}
+      .obj-name{font-family:'Orbitron',sans-serif;font-size:.42rem;letter-spacing:.12em;color:rgba(155,165,225,.6);text-align:center;}
+      .obj-locked{width:60px;height:60px;border-radius:50%;background:rgba(138,90,240,.08);border:2px dashed rgba(138,90,240,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+    </style>
     <div class="objects-grid">
-      <div class="obj"><span class="obj-emoji">🌙</span><span class="obj-name">LYRIS</span></div>
-      <div class="obj"><span class="obj-emoji">🪐</span><span class="obj-name">VAEL-ORA</span></div>
-      <div class="obj"><span class="obj-emoji">⭐</span><span class="obj-name">SOLARA</span></div>
-      <div class="obj"><span class="obj-emoji">☄️</span><span class="obj-name">HALCYON</span></div>
-      <div class="obj"><span class="obj-emoji">🌌</span><span class="obj-name">SAGITTAX</span></div>
-      <div class="obj"><span class="obj-emoji">💫</span><span class="obj-name">ANDROVEX</span></div>
-      <div class="obj"><span class="obj-emoji">🔵</span><span class="obj-name">NEPTHOS</span></div>
-      <div class="obj"><span class="obj-emoji">⚫</span><span class="obj-name">VOID STAR</span></div>
-      <div class="obj"><span class="obj-emoji">🌠</span><span class="obj-name">PROXIS</span></div>
-      <div class="obj" style="opacity:.35;border-style:dashed;"><span class="obj-emoji">❓</span><span class="obj-name">LOCKED</span></div>
+      <div class="obj"><img src="./forge/lyris_pale.png" alt="Lyris"/><span class="obj-name">LYRIS</span></div>
+      <div class="obj"><img src="./forge/vael_ora.png" alt="Vael-Ora"/><span class="obj-name">VAEL-ORA</span></div>
+      <div class="obj"><img src="./forge/solara_heart.png" alt="Solara"/><span class="obj-name">SOLARA</span></div>
+      <div class="obj"><img src="./forge/jovax_sovereign.png" alt="Jovax"/><span class="obj-name">JOVAX</span></div>
+      <div class="obj"><img src="./forge/nepthos_deep.png" alt="Nepthos"/><span class="obj-name">NEPTHOS</span></div>
+      <div class="obj"><img src="./forge/eclipse_eye.png" alt="Eclipse Eye"/><span class="obj-name">ECLIPSE EYE</span></div>
+      <div class="obj"><img src="./forge/aros_eternal.png" alt="Aros Eternal"/><span class="obj-name">AROS ETERNAL</span></div>
+      <div class="obj"><img src="./forge/storm_jovax.png" alt="Storm Jovax"/><span class="obj-name">STORM JOVAX</span></div>
+      <div class="obj"><img src="./forge/the_void_star.png" alt="Void Star"/><span class="obj-name">VOID STAR</span></div>
+      <div class="obj" style="opacity:.4;"><div class="obj-locked">❓</div><span class="obj-name">88 MORE</span></div>
     </div>
-    <p style="margin-top:28px;font-size:.76rem;color:var(--tx3);text-align:center;">+ 86 more objects waiting to be forged through your focus sessions</p>
+    <p style="margin-top:28px;font-size:.76rem;color:var(--tx3);text-align:center;">96 unique objects across 10 chapters — each one earned through genuine, uninterrupted focus</p>
   </div>
 </section>
 
@@ -726,10 +735,10 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <h2 class="sec-title">Your cosmos. Any device.</h2>
   </div>
   <div class="platform-grid reveal" style="margin-top:44px;">
-    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">🌐</div><div class="platform-name">Web App</div><p class="platform-desc">Use in any browser. No install needed.</p></a>
-    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">📱</div><div class="platform-name">Android</div><p class="platform-desc">Coming to Google Play Store soon.</p></a>
-    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">🍎</div><div class="platform-name">iOS</div><p class="platform-desc">Add to Home Screen from Safari for the full app experience.</p></a>
-    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">💻</div><div class="platform-name">Desktop</div><p class="platform-desc">Install as app from Chrome or Edge.</p></a>
+    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">🌐</div><div class="platform-name">Web App</div><p class="platform-desc">Use in any browser. No install needed. Works on all devices.</p></a>
+    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">📱</div><div class="platform-name">Android</div><p class="platform-desc">Available on Google Play. Full native app experience.</p></a>
+    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">🍎</div><div class="platform-name">iOS</div><p class="platform-desc">Open in Safari → Share → Add to Home Screen for the full app experience.</p></a>
+    <a href="https://app.cosmicore.app" class="platform-card"><div class="platform-icon">💻</div><div class="platform-name">Desktop</div><p class="platform-desc">Install as an app directly from Chrome or Edge.</p></a>
   </div>
 </section>
 
@@ -759,7 +768,7 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What does Cosmic Pro add?</div>
-      <div class="faq-a">Pro unlocks the full galaxy of 96 celestial objects, custom focus durations (any length), levels 6–10, unlimited habits and notes, body doubling (see who's forging live), advanced analytics, and collaboration on tasks and notes. At $9.99/month or $79.99/year.</div>
+      <div class="faq-a">Pro unlocks the full galaxy of 96 celestial objects, custom focus durations (any length), levels 6–10, unlimited habits and notes, body doubling (see who's forging live), advanced analytics, and collaboration on tasks and notes. At £4.99/month or £24.99/year.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need to install an app?</div>
@@ -779,7 +788,7 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">I have a question or need support.</div>
-      <div class="faq-a">Email us at <a href="mailto:hello@cosmicore.app" style="color:rgba(138,90,240,.9);">hello@cosmicore.app</a> — we respond within 24 hours.</div>
+      <div class="faq-a">Email us at <a href="mailto:hellocosmicore@gmail.com" style="color:rgba(138,90,240,.9);">hellocosmicore@gmail.com</a> — we respond within 24 hours.</div>
     </div>
   </div>
 </section>
@@ -810,8 +819,8 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <div class="price-card price-pro">
       <div class="price-badge">MOST POPULAR</div>
       <div class="price-name">Cosmic Pro</div>
-      <div class="price-amount"><sup>$</sup>9.99<sub>/mo</sub></div>
-      <p class="price-desc">For serious focus — unlock the full cosmos.<br><span style="color:rgba(138,90,240,.85);font-size:.78rem;">or $79.99/year — save 33%</span></p>
+      <div class="price-amount"><sup>£</sup>4.99<sub>/mo</sub></div>
+      <p class="price-desc">For serious focus — unlock the full cosmos.<br><span style="color:rgba(138,90,240,.85);font-size:.78rem;">or £24.99/year — save 58%</span></p>
       <ul class="price-features">
         <li>Everything in Explorer</li>
         <li>Full galaxy — all 96 celestial objects</li>
@@ -852,7 +861,7 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQ</a>
     <a href="https://app.cosmicore.app">Launch App</a>
-    <a href="mailto:hello@cosmicore.app">Contact</a>
+    <a href="mailto:hellocosmicore@gmail.com">Contact</a>
   </div>
   <div class="footer-links" style="margin-top:10px;opacity:.7;">
     <a href="./privacy.html">Privacy Policy</a>
