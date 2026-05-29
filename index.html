@@ -415,11 +415,22 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <p class="hero-sub">Every focus session you complete forges a celestial object. Stars, planets, nebulae — your consistency becomes your cosmos. The productivity app that makes deep work addictive.</p>
     <div class="hero-btns">
       <a href="https://app.cosmicore.app" class="btn-primary">✦ &nbsp;Start For Free</a>
-      <button class="btn-secondary" id="install-btn" style="cursor:pointer;border:none;font-family:inherit;">
-        <span id="install-btn-text">⬇ &nbsp;Add to Desktop</span>
-      </button>
+      <button class="btn-secondary" id="install-btn" style="cursor:pointer;border:none;font-family:inherit;">⬇ &nbsp;Add to Desktop</button>
     </div>
-    <div id="install-hint" style="display:none;margin-top:10px;font-size:.72rem;color:rgba(175,185,235,.5);line-height:1.6;max-width:320px;"></div>
+
+    <!-- Install Modal -->
+    <div id="install-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+      <div style="background:#0a0620;border:1px solid rgba(138,90,240,.4);border-radius:20px;padding:32px;max-width:440px;width:90%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+        <button onclick="document.getElementById('install-modal').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;color:rgba(175,185,235,.5);font-size:1.2rem;cursor:pointer;">✕</button>
+        <div style="font-size:1.8rem;margin-bottom:12px;">🖥️</div>
+        <div style="font-family:'Orbitron',monospace;font-size:.9rem;font-weight:700;color:rgba(228,234,255,.95);margin-bottom:8px;letter-spacing:.05em;">Install Cosmicore</div>
+        <div style="font-size:.78rem;color:rgba(175,185,235,.6);margin-bottom:24px;line-height:1.7;">Install Cosmicore as a desktop app for the best experience — no browser tab, works like a native app.</div>
+        <div id="install-steps"></div>
+        <div id="install-prompt-btn" style="display:none;margin-top:16px;">
+          <button id="native-install-btn" style="width:100%;padding:12px;border-radius:10px;background:linear-gradient(135deg,rgba(110,55,220,.9),rgba(80,40,185,.9));border:none;color:#fff;cursor:pointer;font-family:'Orbitron',monospace;font-size:.75rem;letter-spacing:.1em;font-weight:700;">✦ INSTALL NOW</button>
+        </div>
+      </div>
+    </div>
     <div class="hero-trust">
       <div class="trust-avatars"><span>A</span><span>Z</span><span>H</span><span>R</span></div>
       <span>Travelers already forging their cosmos</span>
@@ -954,65 +965,91 @@ let lastY=0;const nav=document.getElementById('main-nav');
 nav.style.transition='transform .3s ease';
 window.addEventListener('scroll',()=>{const y=window.scrollY;nav.style.transform=y>100&&y>lastY?'translateY(-100%)':'translateY(0)';lastY=y;},{passive:true});
 
-// PWA INSTALL — smart browser detection
+// PWA INSTALL
 let deferredPrompt = null;
-const installBtn = document.getElementById('install-btn');
-const installHint = document.getElementById('install-hint');
-const installText = document.getElementById('install-btn-text');
 
-// Detect browser
-const isChrome = /Chrome/.test(navigator.userAgent) && !/Edg/.test(navigator.userAgent);
-const isEdge = /Edg/.test(navigator.userAgent);
-const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-const isFirefox = /Firefox/.test(navigator.userAgent);
-const isMobile = /iPhone|iPad|Android/.test(navigator.userAgent);
-
-// Set initial button state based on browser
-if(isSafari && !isMobile) {
-  // Desktop Safari doesn't support PWA install
-  installText.textContent = '⬇ Add to Desktop';
-} else if(isFirefox) {
-  installText.textContent = '⬇ Add to Desktop';
-} else {
-  installText.textContent = '⬇ Add to Desktop';
-}
-
-// Catch the install prompt (Chrome/Edge only)
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installText.textContent = '⬇ Install App';
-  installBtn.style.opacity = '1';
 });
 
-// Handle button click
-installBtn.addEventListener('click', async () => {
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-btn').textContent = '✓ Installed!';
+});
+
+function getInstallSteps() {
+  const ua = navigator.userAgent;
+  const isEdge = /Edg\//.test(ua);
+  const isChrome = /Chrome/.test(ua) && !isEdge;
+  const isFirefox = /Firefox/.test(ua);
+  const isSafari = /Safari/.test(ua) && !/Chrome/.test(ua);
+
   if(deferredPrompt) {
-    // Chrome/Edge — show native install prompt
+    return {
+      steps: ['Click the <strong style="color:rgba(185,155,255,.9)">Install Now</strong> button below', 'A confirmation box will appear — click <strong style="color:rgba(185,155,255,.9)">Install</strong>', 'Cosmicore will open as a desktop app — find it in your taskbar or Start menu'],
+      showNative: true
+    };
+  } else if(isChrome) {
+    return {
+      steps: ['Open <a href="https://app.cosmicore.app" target="_blank" style="color:rgba(138,90,240,.9)">app.cosmicore.app</a> in this browser', 'Look for the <strong style="color:rgba(185,155,255,.9)">⊕ install icon</strong> on the right side of the address bar', 'Click it and select <strong style="color:rgba(185,155,255,.9)">Install</strong> — done!'],
+      showNative: false
+    };
+  } else if(isEdge) {
+    return {
+      steps: ['Open <a href="https://app.cosmicore.app" target="_blank" style="color:rgba(138,90,240,.9)">app.cosmicore.app</a> in Edge', 'Click the <strong style="color:rgba(185,155,255,.9)">⊕ install icon</strong> in the address bar (top right)', 'Click <strong style="color:rgba(185,155,255,.9)">Install</strong> in the popup — Cosmicore opens as a desktop app'],
+      showNative: false
+    };
+  } else if(isFirefox) {
+    return {
+      steps: ['Firefox does not support installing desktop apps', 'For the best experience, open <a href="https://app.cosmicore.app" target="_blank" style="color:rgba(138,90,240,.9)">app.cosmicore.app</a> in <strong style="color:rgba(185,155,255,.9)">Chrome or Edge</strong>', 'Then look for the install icon ⊕ in the address bar'],
+      showNative: false
+    };
+  } else if(isSafari) {
+    return {
+      steps: ['Safari on Mac does not support desktop app install', 'Open <a href="https://app.cosmicore.app" target="_blank" style="color:rgba(138,90,240,.9)">app.cosmicore.app</a> in <strong style="color:rgba(185,155,255,.9)">Chrome or Edge</strong> instead', 'Then click the install icon ⊕ in the address bar'],
+      showNative: false
+    };
+  } else {
+    return {
+      steps: ['Open <a href="https://app.cosmicore.app" target="_blank" style="color:rgba(138,90,240,.9)">app.cosmicore.app</a> in Chrome or Edge', 'Look for the <strong style="color:rgba(185,155,255,.9)">⊕ install icon</strong> in the address bar', 'Click it and select Install'],
+      showNative: false
+    };
+  }
+}
+
+document.getElementById('install-btn').addEventListener('click', () => {
+  const modal = document.getElementById('install-modal');
+  const stepsEl = document.getElementById('install-steps');
+  const nativeBtn = document.getElementById('install-prompt-btn');
+  const { steps, showNative } = getInstallSteps();
+
+  stepsEl.innerHTML = steps.map((s,i) => `
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+      <div style="width:22px;height:22px;border-radius:50%;background:rgba(138,90,240,.2);border:1px solid rgba(138,90,240,.4);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:rgba(185,155,255,.9);font-weight:700;flex-shrink:0;margin-top:1px;">${i+1}</div>
+      <div style="font-size:.76rem;color:rgba(175,185,235,.75);line-height:1.65;">${s}</div>
+    </div>
+  `).join('');
+
+  nativeBtn.style.display = showNative ? 'block' : 'none';
+  modal.style.display = 'flex';
+});
+
+document.getElementById('native-install-btn').addEventListener('click', async () => {
+  if(deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     deferredPrompt = null;
     if(outcome === 'accepted') {
-      installText.textContent = '✓ Installing...';
-      setTimeout(() => { installText.textContent = '✓ Installed!'; }, 2000);
+      document.getElementById('install-modal').style.display = 'none';
+      document.getElementById('install-btn').textContent = '✓ Installed!';
     }
-  } else if(isSafari && isMobile) {
-    // iOS Safari
-    installHint.style.display = 'block';
-    installHint.innerHTML = '📱 On iPhone: tap the <strong style="color:rgba(200,215,255,.8)">Share button</strong> at the bottom of Safari, then tap <strong style="color:rgba(200,215,255,.8)">Add to Home Screen</strong>.';
-  } else if(isSafari && !isMobile) {
-    // Desktop Safari
-    installHint.style.display = 'block';
-    installHint.innerHTML = '🖥️ Safari doesn\'t support app install. Open <strong style="color:rgba(200,215,255,.8)">app.cosmicore.app</strong> in Chrome or Edge, then click the install icon in the address bar.';
-  } else if(isFirefox) {
-    // Firefox
-    installHint.style.display = 'block';
-    installHint.innerHTML = '🦊 Firefox doesn\'t support app install. Open <strong style="color:rgba(200,215,255,.8)">app.cosmicore.app</strong> in Chrome or Edge for the best experience.';
-  } else {
-    // Fallback — open the app
-    window.open('https://app.cosmicore.app', '_blank');
-    installHint.style.display = 'block';
-    installHint.innerHTML = '💡 In Chrome/Edge: look for the <strong style="color:rgba(200,215,255,.8)">install icon ⊕</strong> in the address bar after the app opens.';
+  }
+});
+
+// Close modal on backdrop click
+document.getElementById('install-modal').addEventListener('click', (e) => {
+  if(e.target === document.getElementById('install-modal')) {
+    document.getElementById('install-modal').style.display = 'none';
   }
 });
 
