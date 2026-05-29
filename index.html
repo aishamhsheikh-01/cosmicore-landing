@@ -415,8 +415,11 @@ footer{position:relative;z-index:2;border-top:1px solid rgba(138,90,240,.1);padd
     <p class="hero-sub">Every focus session you complete forges a celestial object. Stars, planets, nebulae — your consistency becomes your cosmos. The productivity app that makes deep work addictive.</p>
     <div class="hero-btns">
       <a href="https://app.cosmicore.app" class="btn-primary">✦ &nbsp;Start For Free</a>
-      <a href="https://app.cosmicore.app" class="btn-secondary" id="install-btn" target="_blank">↓ &nbsp;Install Desktop App</a>
+      <button class="btn-secondary" id="install-btn" style="cursor:pointer;border:none;font-family:inherit;">
+        <span id="install-btn-text">⬇ &nbsp;Add to Desktop</span>
+      </button>
     </div>
+    <div id="install-hint" style="display:none;margin-top:10px;font-size:.72rem;color:rgba(175,185,235,.5);line-height:1.6;max-width:320px;"></div>
     <div class="hero-trust">
       <div class="trust-avatars"><span>A</span><span>Z</span><span>H</span><span>R</span></div>
       <span>Travelers already forging their cosmos</span>
@@ -951,23 +954,65 @@ let lastY=0;const nav=document.getElementById('main-nav');
 nav.style.transition='transform .3s ease';
 window.addEventListener('scroll',()=>{const y=window.scrollY;nav.style.transform=y>100&&y>lastY?'translateY(-100%)':'translateY(0)';lastY=y;},{passive:true});
 
-// PWA INSTALL
-let deferredPrompt;
+// PWA INSTALL — smart browser detection
+let deferredPrompt = null;
+const installBtn = document.getElementById('install-btn');
+const installHint = document.getElementById('install-hint');
+const installText = document.getElementById('install-btn-text');
+
+// Detect browser
+const isChrome = /Chrome/.test(navigator.userAgent) && !/Edg/.test(navigator.userAgent);
+const isEdge = /Edg/.test(navigator.userAgent);
+const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+const isFirefox = /Firefox/.test(navigator.userAgent);
+const isMobile = /iPhone|iPad|Android/.test(navigator.userAgent);
+
+// Set initial button state based on browser
+if(isSafari && !isMobile) {
+  // Desktop Safari doesn't support PWA install
+  installText.textContent = '⬇ Add to Desktop';
+} else if(isFirefox) {
+  installText.textContent = '⬇ Add to Desktop';
+} else {
+  installText.textContent = '⬇ Add to Desktop';
+}
+
+// Catch the install prompt (Chrome/Edge only)
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  const btn = document.getElementById('install-btn');
-  if(btn) {
-    btn.onclick = async(ev) => {
-      ev.preventDefault();
-      if(deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      } else {
-        window.open('https://app.cosmicore.app','_blank');
-      }
-    };
+  installText.textContent = '⬇ Install App';
+  installBtn.style.opacity = '1';
+});
+
+// Handle button click
+installBtn.addEventListener('click', async () => {
+  if(deferredPrompt) {
+    // Chrome/Edge — show native install prompt
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if(outcome === 'accepted') {
+      installText.textContent = '✓ Installing...';
+      setTimeout(() => { installText.textContent = '✓ Installed!'; }, 2000);
+    }
+  } else if(isSafari && isMobile) {
+    // iOS Safari
+    installHint.style.display = 'block';
+    installHint.innerHTML = '📱 On iPhone: tap the <strong style="color:rgba(200,215,255,.8)">Share button</strong> at the bottom of Safari, then tap <strong style="color:rgba(200,215,255,.8)">Add to Home Screen</strong>.';
+  } else if(isSafari && !isMobile) {
+    // Desktop Safari
+    installHint.style.display = 'block';
+    installHint.innerHTML = '🖥️ Safari doesn\'t support app install. Open <strong style="color:rgba(200,215,255,.8)">app.cosmicore.app</strong> in Chrome or Edge, then click the install icon in the address bar.';
+  } else if(isFirefox) {
+    // Firefox
+    installHint.style.display = 'block';
+    installHint.innerHTML = '🦊 Firefox doesn\'t support app install. Open <strong style="color:rgba(200,215,255,.8)">app.cosmicore.app</strong> in Chrome or Edge for the best experience.';
+  } else {
+    // Fallback — open the app
+    window.open('https://app.cosmicore.app', '_blank');
+    installHint.style.display = 'block';
+    installHint.innerHTML = '💡 In Chrome/Edge: look for the <strong style="color:rgba(200,215,255,.8)">install icon ⊕</strong> in the address bar after the app opens.';
   }
 });
 
